@@ -75,8 +75,9 @@ class Response(FlaskResponse):
 
     @classmethod
     def force_type(cls, response, *args, **kwargs):
-        response = jsonify(response)
-        return super(Response, cls).force_type(response, *args, **kwargs)
+        if not isinstance(response, dict):
+            response = dict(data=response)
+        return jsonify(response)
 
 
 def handle_error(e):
@@ -98,11 +99,11 @@ def handle_error(e):
 
 
 class Stupeflask(BaseStupeflask):
+    json_encoder = JSONEncoder
+    response_class = Response
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
-
-        self.json_encoder = JSONEncoder
 
         try:
             import wtforms_json
