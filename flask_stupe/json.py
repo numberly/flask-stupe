@@ -67,7 +67,6 @@ class JSONEncoder(FlaskJSONEncoder):
             >>> app = flask.ext.stupe.json.Stupeflask(__name__)
             >>> app.json_encoder.add_rule(int, lambda i: str(i))
         """
-        global encoder_rules
         encoder_rules.append((type_or_tuple, function))
 
 
