@@ -97,10 +97,19 @@ class Stupeflask(BaseStupeflask):
     response_class = Response
 
     def make_response(self, rv):
+        data = None
         code = 200
+
         if isinstance(rv, tuple):
-            rv, code = rv
-        return jsonify(code=code, data=rv)
+            data, code = rv
+        elif isinstance(rv, int):
+            code = rv
+        else:
+            data = rv
+
+        if data is None:
+            return jsonify(code=code)
+        return jsonify(code=code, data=data)
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
