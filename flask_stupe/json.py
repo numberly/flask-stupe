@@ -73,12 +73,6 @@ class JSONEncoder(FlaskJSONEncoder):
 class Response(FlaskResponse):
     default_mimetype = "application/json"
 
-    @classmethod
-    def force_type(cls, response, *args, **kwargs):
-        if not isinstance(response, dict):
-            response = dict(data=response)
-        return jsonify(response)
-
 
 def handle_error(e):
     """Convert any exception into a JSON message, with a proper HTTP code.
@@ -101,6 +95,12 @@ def handle_error(e):
 class Stupeflask(BaseStupeflask):
     json_encoder = JSONEncoder
     response_class = Response
+
+    def make_response(self, rv):
+        code = 200
+        if isinstance(rv, tuple):
+            rv, code = rv
+        return jsonify(code=code, data=rv)
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
