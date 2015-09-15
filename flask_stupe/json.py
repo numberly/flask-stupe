@@ -107,6 +107,8 @@ class Stupeflask(BaseStupeflask):
         else:
             data = rv
 
+        if isinstance(data, Response):
+            return data
         if data is None:
             return jsonify(code=code)
         return jsonify(code=code, data=data)
