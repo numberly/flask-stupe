@@ -8,7 +8,7 @@ from flask.json import JSONEncoder as FlaskJSONEncoder
 from werkzeug.exceptions import (default_exceptions, HTTPException,
                                  InternalServerError)
 
-from flask_stupe import Stupeflask as BaseStupeflask
+from flask_stupe.app import Stupeflask as BaseStupeflask
 
 encoder_rules = [
     ((date, datetime), lambda d: d.isoformat()),
