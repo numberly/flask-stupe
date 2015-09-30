@@ -1,8 +1,6 @@
-import functools
-
 from datetime import date, datetime
 
-from flask import jsonify, request
+from flask import jsonify
 from flask import Response as FlaskResponse
 from flask.json import JSONEncoder as FlaskJSONEncoder
 from werkzeug.exceptions import (default_exceptions, HTTPException,
@@ -10,16 +8,22 @@ from werkzeug.exceptions import (default_exceptions, HTTPException,
 
 from flask_stupe.app import Stupeflask as BaseStupeflask
 
+try:
+    import wtforms_json
+except ImportError:
+    wtforms_json = False
+
 encoder_rules = [
     ((date, datetime), lambda d: d.isoformat()),
 ]
 
 try:
-    from bson import ObjectId
-
-    encoder_rules.append((ObjectId, lambda o: str(o)))
+    import bson
 except ImportError:
-    pass
+    bson = False
+
+if bson:
+    encoder_rules.append((bson.ObjectId, lambda o: str(o)))
 
 
 def unencodable(o):
@@ -116,29 +120,12 @@ class Stupeflask(BaseStupeflask):
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
 
-        try:
-            import wtforms_json
-
+        if wtforms_json:
             wtforms_json.init()
-        except ImportError:
-            pass
 
         for code in default_exceptions.keys():
             self.register_error_handler(code, handle_error)
 
 
-def form_required(form_cls):
-    def __inner(f):
-        @functools.wraps(f)
-        def __inner(*args, **kwargs):
-            json = request.get_json(force=True)
-            form = form_cls.from_json(json)
-            form.validate()
-            request.form = form
-            return f(*args, **kwargs)
-        return __inner
-    return __inner
-
-
 __all__ = ["encoder_rules", "encode", "JSONEncoder", "handle_error",
-           "Stupeflask", "form_required"]
+           "Stupeflask"]
