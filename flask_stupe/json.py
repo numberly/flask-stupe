@@ -101,9 +101,11 @@ class Stupeflask(BaseStupeflask):
     response_class = Response
 
     def make_response(self, rv):
+        if isinstance(rv, self.response_class):
+            return rv
+
         data = None
         code = 200
-
         if isinstance(rv, tuple):
             data, code = rv
         elif isinstance(rv, int):
@@ -111,11 +113,13 @@ class Stupeflask(BaseStupeflask):
         else:
             data = rv
 
-        if isinstance(data, Response):
-            return data
         if data is None:
-            return jsonify(code=code)
-        return jsonify(code=code, data=data)
+            rv = jsonify(code=code)
+        else:
+            rv = jsonify(code=code, data=data)
+
+        rv.status_code = code
+        return rv
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
