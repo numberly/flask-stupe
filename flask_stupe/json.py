@@ -40,7 +40,7 @@ def encode(o, silent=True):
 
 
 class JSONEncoder(FlaskJSONEncoder):
-    """Stupeflask extensible JSON encoder.
+    """Stupeflask extensible JSON encoder
 
     The JSONEncoder is used by :func:`flask.jsonify` to convert a Python
     dictionary into a real JSON string. If the JSONEncoder receive a dict
@@ -62,7 +62,7 @@ class JSONEncoder(FlaskJSONEncoder):
             return super(JSONEncoder, self).default(o)
 
     def add_rule(type_or_tuple, function):
-        """Add a new serializing rule.
+        """Add a new serializing rule
 
         A rule is defined by one or multiple types, and a function to execute in
         order to serialize this or those types.
@@ -79,7 +79,7 @@ class Response(FlaskResponse):
 
 
 def handle_error(e):
-    """Convert any exception into a JSON message, with a proper HTTP code.
+    """Convert any exception into a JSON message, with a proper HTTP code
 
     The JSON message will have the following form:
     {

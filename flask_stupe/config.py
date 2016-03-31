@@ -6,7 +6,7 @@ from flask.config import Config as FlaskConfig
 class Config(FlaskConfig):
 
     def from_env(self):
-        """Try to overload the config with the environment."""
+        """Try to overload the config with the environment"""
 
         # ramnes: we don't want DEBUG=0 to be casted as DEBUG=True
         def __str2bool(v):

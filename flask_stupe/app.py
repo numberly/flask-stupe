@@ -31,7 +31,7 @@ class Stupeflask(Flask):
         return Config(root_path, self.default_config)
 
     def register_converter(self, converter, name=None):
-        """Register a new converter that can be used in endpoints URLs.
+        """Register a new converter that can be used in endpoints URLs
 
         A converter is a Werkzeug class that transform a part of an URL to a
         Python object, passed as an argument to the endpoint function.
@@ -58,7 +58,7 @@ class Stupeflask(Flask):
             self.register_converter(converter)
 
     def register_blueprints(self, package):
-        """Auto-discover blueprints and register them.
+        """Auto-discover blueprints and register them
 
         It will look recursively in every module of the package to find a variable
         that has the same name as its module.
