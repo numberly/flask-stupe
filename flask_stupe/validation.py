@@ -91,4 +91,4 @@ if marshmallow:
             return __inner
         return __inner
 
-    __all__.extend(["unrequire", "Schema", "schema_required"])
+    __all__.extend(["unrequire", "Nested", "Schema", "schema_required"])
