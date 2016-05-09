@@ -37,9 +37,6 @@ if wtforms:
 
 
 if marshmallow:
-
-    from marshmallow.fields import Nested as BaseNested
-
     def unrequire(schema_or_field):
         if isinstance(schema_or_field, marshmallow.fields.Field):
             schema_or_field.required = False
@@ -51,7 +48,7 @@ if marshmallow:
             for field in schema_or_field.fields.values():
                 unrequire(field)
 
-    class Nested(BaseNested):
+    class Nested(marshmallow.fields.Nested):
         """An overloaded Nested field that can handle more than a single schema.
         By giving it a list of schemas, it will iterate through them to find one
         that matches with the input data. It raises an error if the data doesn't
