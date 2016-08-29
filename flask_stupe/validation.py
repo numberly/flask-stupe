@@ -38,12 +38,12 @@ if wtforms:
 
 if marshmallow:
     def unrequire(schema_or_field):
-        if isinstance(schema_or_field, marshmallow.fields.Field):
-            schema_or_field.required = False
-        elif isinstance(schema_or_field, marshmallow.fields.List):
+        if isinstance(schema_or_field, marshmallow.fields.List):
             unrequire(schema_or_field.container)
         elif isinstance(schema_or_field, marshmallow.fields.Nested):
             unrequire(schema_or_field.schema)
+        elif isinstance(schema_or_field, marshmallow.fields.Field):
+            schema_or_field.required = False
         elif isinstance(schema_or_field, marshmallow.Schema):
             for field in schema_or_field.fields.values():
                 unrequire(field)
