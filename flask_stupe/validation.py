@@ -42,11 +42,11 @@ if marshmallow:
             unrequire(schema_or_field.container)
         elif isinstance(schema_or_field, marshmallow.fields.Nested):
             unrequire(schema_or_field.schema)
-        elif isinstance(schema_or_field, marshmallow.fields.Field):
-            schema_or_field.required = False
         elif isinstance(schema_or_field, marshmallow.Schema):
             for field in schema_or_field.fields.values():
                 unrequire(field)
+        if isinstance(schema_or_field, marshmallow.fields.Field):
+            schema_or_field.required = False
 
     class Nested(marshmallow.fields.Nested):
         """An overloaded Nested field that can handle more than a single schema.
