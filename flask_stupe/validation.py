@@ -55,6 +55,18 @@ if marshmallow:
         correspond to any schema.
         """
 
+        @property
+        def schema(self):
+            try:
+                return super(Nested, self).schema
+            except ValueError:
+                if isinstance(self.nested, list):
+                    if all(isinstance(elem, type)
+                           for elem in self.nested):
+                        pass
+                else:
+                    raise
+
         def _deserialize(self, value, attr, data):
             try:
                 return super(Nested, self)._deserialize(value, attr, data)
