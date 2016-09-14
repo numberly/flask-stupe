@@ -60,7 +60,7 @@ if marshmallow:
             try:
                 return super(Nested, self).schema
             except ValueError:
-                if isinstance(self.nested, list):
+                if isinstance(self.nested, (list, tuple)):
                     if all(isinstance(elem, type)
                            for elem in self.nested):
                         pass
@@ -71,7 +71,7 @@ if marshmallow:
             try:
                 return super(Nested, self)._deserialize(value, attr, data)
             except ValueError:
-                if isinstance(self.nested, list):
+                if isinstance(self.nested, (list, tuple)):
                     for schema in self.nested:
                         if isinstance(schema, type):
                             schema = schema()
