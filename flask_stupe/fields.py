@@ -40,7 +40,29 @@ if marshmallow:
                 self.fail("invalid")
             return value
 
-    __all__.append("Color")
+    class Nested(marshmallow.fields.Nested):
+        """An overloaded Nested field that can handle more than a single schema
+
+        By giving it a list of schemas, it will iterate through them to find one
+        that matches with the input data. It raises an error if the data doesn't
+        correspond to any schema.
+        """
+
+        def _deserialize(self, value, attr, data):
+            try:
+                return super(Nested, self)._deserialize(value, attr, data)
+            except ValueError:
+                if isinstance(self.nested, (list, tuple)):
+                    for schema in self.nested:
+                        if isinstance(schema, type):
+                            schema = schema()
+                        data, errors = schema.load(value)
+                        if not errors:
+                            return data
+                    self.fail("validator_failed")
+                raise
+
+    __all__.extend(["Color", "Nested"])
 
 
 if bson and marshmallow:
