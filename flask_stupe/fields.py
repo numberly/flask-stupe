@@ -40,6 +40,33 @@ if marshmallow:
                 self.fail("invalid")
             return value
 
+    class Cron(marshmallow.fields.String):
+        default_error_messages = {
+            "invalid": "Not a valid cron expression.",
+            "minute": "The minutes field is invalid.",
+            "hour": "The hours field is invalid.",
+            "dom": "The day of the month field is invalid.",
+            "month": "The month field is invalid.",
+            "dow": "The day of the week field is invalid."
+        }
+        limits = (("minute", 59), ("hour", 23), ("dom", 31), ("month", 12),
+                  ("dow", 7))
+
+        def _deserialize(self, value, attr, data):
+            fields = value.split()
+            if len(fields) != 5:
+                self.fail("invalid")
+            for field, (name, limit) in zip(fields, self.limits):
+                try:
+                    if field != "*":
+                        if int(field) > limit or int(field) < 0:
+                            raise Exception
+                except ValueError:
+                    self.fail("invalid")
+                except Exception:
+                    self.fail(name)
+            return value
+
     currencies = ("ADF", "ADP", "AED", "AFA", "AFN", "ALL", "AMD", "ANG", "AOA",
                   "AOK", "AON", "AOR", "ARP", "ARS", "ATS", "AUD", "AWG", "AZM",
                   "AZN", "BAM", "BBD", "BDT", "BEF", "BGL", "BGN", "BHD", "BIF",
