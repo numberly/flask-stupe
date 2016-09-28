@@ -4,8 +4,6 @@ from flask_stupe.validation import wtforms, marshmallow
 
 __all__ = []
 
-hexcolor_re = re.compile(r"^#[0-9a-f]{6}$")
-
 try:
     import bson
 except ImportError:
@@ -26,6 +24,8 @@ if bson and wtforms:
 
 
 if marshmallow:
+    hexcolor_re = re.compile(r"^#[0-9a-f]{6}$")
+
     class Color(marshmallow.fields.Field):
         default_error_messages = {
             "invalid": "Not a valid color."
