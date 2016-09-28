@@ -26,7 +26,7 @@ if bson and wtforms:
 if marshmallow:
     hexcolor_re = re.compile(r"^#[0-9a-f]{6}$")
 
-    class Color(marshmallow.fields.Field):
+    class Color(marshmallow.fields.String):
         default_error_messages = {
             "invalid": "Not a valid color."
         }
@@ -68,7 +68,7 @@ if marshmallow:
                   "XOF", "XPD", "XPF", "XPT", "YER", "YUD", "YUM", "ZAR", "ZMK",
                   "ZWD", "ZWL", "ZWR")
 
-    class Currency(marshmallow.fields.Field):
+    class Currency(marshmallow.fields.String):
         default_error_messages = {
             "invalid": "Not a valid currency."
         }
