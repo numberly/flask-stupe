@@ -40,29 +40,37 @@ if marshmallow:
                 self.fail("invalid")
             return value
 
-    class Nested(marshmallow.fields.Nested):
-        """An overloaded Nested field that can handle more than a single schema
+    class OneOf(marshmallow.fields.Field):
+        default_error_messages = {
+            "invalid": "Object type doesn't match any valid type"
+        }
 
-        By giving it a list of schemas, it will iterate through them to find one
-        that matches with the input data. It raises an error if the data doesn't
-        correspond to any schema.
-        """
+        def __init__(self, fields, *args, **kwargs):
+            super(OneOf, self).__init__(*args, **kwargs)
 
-        def _deserialize(self, value, attr, data):
-            try:
-                return super(Nested, self)._deserialize(value, attr, data)
-            except ValueError:
-                if isinstance(self.nested, (list, tuple)):
-                    for schema in self.nested:
-                        if isinstance(schema, type):
-                            schema = schema()
-                        data, errors = schema.load(value)
-                        if not errors:
-                            return data
-                    self.fail("validator_failed")
-                raise
+            if not isinstance(fields, (list, tuple)):
+                raise ValueError("Fields must be contained in a list or tuple")
 
-    __all__.extend(["Color", "Nested"])
+            self.fields = []
+            for field in fields:
+                if isinstance(field, type):
+                    if not issubclass(field, marshmallow.base.FieldABC):
+                        raise ValueError("Fields types must subclass FieldABC")
+                    self.fields.append(field())
+                else:
+                    if not isinstance(field, marshmallow.base.FieldABC):
+                        raise ValueError("Fields must be FieldABC instances")
+                    self.fields.append(field)
+
+        def _deserialize(self, value, *args, **kwargs):
+            for field in self.fields:
+                try:
+                    return field._deserialize(value, *args, **kwargs)
+                except marshmallow.exceptions.ValidationError:
+                    pass
+            self.fail("invalid")
+
+    __all__.extend(["Color", "OneOf"])
 
 
 if bson and marshmallow:
