@@ -11,12 +11,12 @@ __all__ = []
 if pymongo:
     def paginate(cursor, skip=None, limit=None):
         """Apply pagination to the given cursor"""
-        skip = request.args.get("skip", skip)
+        skip = request.args.get("skip", skip, type=int)
         if skip is not None:
-            cursor = cursor.skip(int(skip))
-        limit = request.args.get("limit", limit)
+            cursor = cursor.skip(skip)
+        limit = request.args.get("limit", limit, type=int)
         if limit is not None:
-            cursor = cursor.limit(int(limit))
+            cursor = cursor.limit(limit)
         return cursor
 
     __all__.append("paginate")
