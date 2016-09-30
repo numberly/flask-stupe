@@ -1,3 +1,5 @@
+import functools
+
 from flask import request
 
 try:
@@ -9,8 +11,7 @@ __all__ = []
 
 
 if pymongo:
-    def paginate(cursor, skip=None, limit=None, sort=None):
-        """Apply pagination to the given cursor"""
+    def _paginate(cursor, skip=None, limit=None, sort=None):
         skip = request.args.get("skip", skip, type=int)
         if skip is not None:
             cursor = cursor.skip(skip)
@@ -31,5 +32,20 @@ if pymongo:
                     sort[index] = (item, pymongo.ASCENDING)
             cursor.sort(sort)
         return cursor
+
+    def paginate(function_or_cursor=None, skip=None, limit=None, sort=None):
+        """Apply pagination to the given cursor or function"""
+        if isinstance(function_or_cursor, pymongo.cursor.Cursor):
+            return _paginate(function_or_cursor, skip, limit, sort)
+
+        def __decorator(function):
+            @functools.wraps(function)
+            def __wrapper(*args, **kwargs):
+                return _paginate(function(*args, **kwargs), skip, limit, sort)
+            return __wrapper
+
+        if function_or_cursor:
+            return __decorator(function_or_cursor)
+        return __decorator
 
     __all__.append("paginate")
