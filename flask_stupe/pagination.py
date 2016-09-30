@@ -5,15 +5,10 @@ try:
 except ImportError:
     pymongo = False
 
-try:
-    import sqlalchemy
-except ImportError:
-    sqlalchemy = False
-
 __all__ = []
 
 
-if pymongo or sqlalchemy:
+if pymongo:
     def paginate(cursor, skip=None, limit=None):
         """Apply pagination to the given cursor"""
         skip = request.args.get("skip", skip)
