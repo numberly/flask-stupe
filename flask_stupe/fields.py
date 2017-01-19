@@ -26,7 +26,7 @@ if bson and wtforms:
 if marshmallow:
     hexcolor_re = re.compile(r"^#[0-9a-f]{6}$")
 
-    class Color(marshmallow.fields.Field):
+    class Color(marshmallow.fields.String):
         default_error_messages = {
             "invalid": "Not a valid color."
         }
@@ -37,6 +37,75 @@ if marshmallow:
             except AttributeError:
                 self.fail("type")
             if not hexcolor_re.match(value):
+                self.fail("invalid")
+            return value
+
+    class Cron(marshmallow.fields.String):
+        default_error_messages = {
+            "invalid": "Not a valid cron expression.",
+            "minute": "The minutes field is invalid.",
+            "hour": "The hours field is invalid.",
+            "dom": "The day of the month field is invalid.",
+            "month": "The month field is invalid.",
+            "dow": "The day of the week field is invalid."
+        }
+        limits = (("minute", 59), ("hour", 23), ("dom", 31), ("month", 12),
+                  ("dow", 7))
+
+        def _deserialize(self, value, attr, data):
+            fields = value.split()
+            if len(fields) != 5:
+                self.fail("invalid")
+            for field, (name, limit) in zip(fields, self.limits):
+                try:
+                    if field != "*":
+                        if int(field) > limit or int(field) < 0:
+                            raise Exception
+                except ValueError:
+                    self.fail("invalid")
+                except Exception:
+                    self.fail(name)
+            return value
+
+    currencies = ("ADF", "ADP", "AED", "AFA", "AFN", "ALL", "AMD", "ANG", "AOA",
+                  "AOK", "AON", "AOR", "ARP", "ARS", "ATS", "AUD", "AWG", "AZM",
+                  "AZN", "BAM", "BBD", "BDT", "BEF", "BGL", "BGN", "BHD", "BIF",
+                  "BMD", "BND", "BOB", "BOP", "BOV", "BRL", "BRR", "BSD", "BTN",
+                  "BWP", "BYB", "BYN", "BYR", "BZD", "CAD", "CDF", "CHE", "CHF",
+                  "CHW", "CLF", "CLP", "CNY", "COP", "COU", "CRC", "CSD", "CSK",
+                  "CUC", "CUP", "CVE", "CYP", "CZK", "DEM", "DJF", "DKK", "DOP",
+                  "DZD", "ECS", "ECV", "EEK", "EGP", "ERN", "ESP", "ETB", "EUR",
+                  "FIM", "FJD", "FKP", "FRF", "GBP", "GEL", "GHS", "GIP", "GMD",
+                  "GNF", "GRD", "GTQ", "GWP", "GYD", "HKD", "HNL", "HRK", "HTG",
+                  "HUF", "IDR", "IEP", "ILS", "INR", "IQD", "IRR", "ISK", "ITL",
+                  "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW",
+                  "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LTL",
+                  "LUF", "LVL", "LVR", "LYD", "MAD", "MDL", "MGA", "MGF", "MKD",
+                  "MMK", "MNT", "MOP", "MRO", "MTL", "MUR", "MVR", "MWK", "MXN",
+                  "MXV", "MYR", "MZE", "MZM", "MZN", "NAD", "NGN", "NHF", "NIC",
+                  "NIO", "NLG", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PES",
+                  "PGK", "PHP", "PKR", "PLN", "PLZ", "PTE", "PYG", "QAR", "ROL",
+                  "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDD", "SDG",
+                  "SDP", "SEK", "SGD", "SHP", "SIT", "SKK", "SLL", "SML", "SOS",
+                  "SRD", "SSP", "STD", "SUB", "SUR", "SVC", "SYP", "SZL", "THB",
+                  "TJS", "TMM", "TMT", "TND", "TOP", "TPE", "TRL", "TRY", "TTD",
+                  "TWD", "TZS", "UAH", "UGX", "USD", "USN", "USS", "UYU", "UZS",
+                  "VAL", "VEB", "VEF", "VND", "VUV", "WST", "XAF", "XAG", "XAU",
+                  "XBA", "XBB", "XBC", "XBD", "XCD", "XDR", "XEU", "XFO", "XFU",
+                  "XOF", "XPD", "XPF", "XPT", "YER", "YUD", "YUM", "ZAR", "ZMK",
+                  "ZWD", "ZWL", "ZWR")
+
+    class Currency(marshmallow.fields.String):
+        default_error_messages = {
+            "invalid": "Not a valid currency."
+        }
+
+        def _deserialize(self, value, attr, data):
+            try:
+                value = value.upper()
+            except AttributeError:
+                self.fail("type")
+            if value not in currencies:
                 self.fail("invalid")
             return value
 
@@ -70,7 +139,7 @@ if marshmallow:
                     pass
             self.fail("invalid")
 
-    __all__.extend(["Color", "OneOf"])
+    __all__.extend(["Color", "Currency", "OneOf"])
 
 
 if bson and marshmallow:
