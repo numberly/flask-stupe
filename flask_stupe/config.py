@@ -12,12 +12,17 @@ class Config(FlaskConfig):
         def __str2bool(v):
             return bool(int(v))
 
+        def __str2list(v):
+            return v.split(",")
+
         env_config = {}
         for key, value in self.items():
             if key in os.environ:
                 cast = type(value)
                 if cast is bool:
                     cast = __str2bool
+                if cast is list:
+                    cast = __str2list
                 env_config[key] = cast(os.environ.get(key))
         self.update(env_config)
         return env_config
