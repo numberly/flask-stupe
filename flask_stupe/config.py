@@ -21,7 +21,7 @@ class Config(FlaskConfig):
                 cast = type(value)
                 if cast is bool:
                     cast = __str2bool
-                if cast is list:
+                elif cast is list:
                     cast = __str2list
                 env_config[key] = cast(os.environ.get(key))
         self.update(env_config)
