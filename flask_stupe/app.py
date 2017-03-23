@@ -18,7 +18,7 @@ class Stupeflask(Flask):
         log.info(" * Loading $CONFIG ({})".format(os.environ.get("CONFIG")))
         self.config.from_envvar("CONFIG", silent=True)
         from_env = self.config.from_env()
-        log.info(" * Overrided by environment: " + ", ".join(from_env))
+        log.info(" * Overriden by environment: " + ", ".join(from_env))
         self.register_converters(converters)
 
     # ramnes: TODO: replace this by `Stupeflask.config_class = Config` when
