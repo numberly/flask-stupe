@@ -1,6 +1,7 @@
 import pytest
 
 from flask_stupe.config import Config
+from flask_stupe.app import Stupeflask
 from werkzeug.routing import BaseConverter
 
 
@@ -44,3 +45,8 @@ def test_register_blueprints(test_apps, caplog, app):
     assert " * Registering blueprint blueprintapp.apps.admin" in messages
     assert " * Registering blueprint blueprintapp.apps.frontend" in messages
     assert len(app.blueprints) == 2
+
+
+@pytest.fixture
+def app():
+    return Stupeflask(__name__)
