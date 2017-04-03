@@ -9,6 +9,7 @@ from flask_stupe.logging import log
 
 
 class Stupeflask(Flask):
+    config_class = Config
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
@@ -20,15 +21,6 @@ class Stupeflask(Flask):
         from_env = self.config.from_env()
         log.info(" * Overriden by environment: " + ", ".join(from_env))
         self.register_converters(converters)
-
-    # ramnes: TODO: replace this by `Stupeflask.config_class = Config` when
-    # Flask 1.0 is out (here we're just rewriting a `Flask` method to use our
-    # own Config class)
-    def make_config(self, instance_relative=False):
-        root_path = self.root_path
-        if instance_relative:
-            root_path = self.instance_path
-        return Config(root_path, self.default_config)
 
     def register_converter(self, converter, name=None):
         """Register a new converter that can be used in endpoints URLs

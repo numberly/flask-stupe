@@ -19,7 +19,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     platforms='any',
-    install_requires=['Flask'],
+    install_requires=['Flask>=0.11'],
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
