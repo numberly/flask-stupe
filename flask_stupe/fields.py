@@ -1,6 +1,6 @@
 import re
 
-from flask_stupe.validation import wtforms, marshmallow
+from flask_stupe.validation import marshmallow
 
 __all__ = []
 
@@ -8,19 +8,6 @@ try:
     import bson
 except ImportError:
     bson = False
-
-
-if bson and wtforms:
-    class ObjectIdField(wtforms.Field):
-        widget = wtforms.widgets.TextInput()
-
-        def process_formdata(self, values):
-            try:
-                self.data = bson.ObjectId(values[0])
-            except bson.errors.InvalidId:
-                raise wtforms.validators.ValidationError("Not a valid ObjectId.")
-
-    __all__.append("ObjectIdField")
 
 
 if marshmallow:

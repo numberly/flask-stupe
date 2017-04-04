@@ -5,35 +5,9 @@ from flask import abort, request
 __all__ = []
 
 try:
-    import wtforms
-except ImportError:
-    wtforms = False
-
-try:
     import marshmallow
 except ImportError:
     marshmallow = False
-
-
-if wtforms:
-    class Form(wtforms.Form):
-        pass
-
-    def form_required(form_cls):
-        def __inner(f):
-            @functools.wraps(f)
-            def __inner(*args, **kwargs):
-                json = request.get_json(force=True)
-                form = form_cls.from_json(json)
-                valid = form.validate()
-                if not valid:
-                    abort(400, form.errors)
-                request.form = form.data
-                return f(*args, **kwargs)
-            return __inner
-        return __inner
-
-    __all__.extend(["Form", "form_required"])
 
 
 if marshmallow:

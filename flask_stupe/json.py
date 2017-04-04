@@ -8,11 +8,6 @@ from werkzeug.exceptions import (default_exceptions, HTTPException,
 
 from flask_stupe.app import Stupeflask as BaseStupeflask
 
-try:
-    import wtforms_json
-except ImportError:
-    wtforms_json = False
-
 encoder_rules = [
     ((date, datetime), lambda d: d.isoformat()),
 ]
@@ -123,9 +118,6 @@ class Stupeflask(BaseStupeflask):
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
-
-        if wtforms_json:
-            wtforms_json.init()
 
         for code in default_exceptions.keys():
             self.register_error_handler(code, handle_error)
