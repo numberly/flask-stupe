@@ -1,3 +1,4 @@
+import json
 import os
 import pytest
 
@@ -23,3 +24,8 @@ def test_apps(monkeypatch):
             os.path.dirname(__file__), "test_apps")
         )
     )
+
+
+def response_to_dict(response):
+    data = response.get_data()
+    return json.loads(data.decode("utf-8"))
