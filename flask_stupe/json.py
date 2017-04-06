@@ -14,11 +14,9 @@ encoder_rules = [
 
 try:
     import bson
-except ImportError:
-    bson = False
-
-if bson:
     encoder_rules.append((bson.ObjectId, lambda o: str(o)))
+except ImportError:  # pragma: no cover
+    pass
 
 
 class EncodeError(Exception):
