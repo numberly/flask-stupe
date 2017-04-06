@@ -21,8 +21,10 @@ if bson:
     encoder_rules.append((bson.ObjectId, lambda o: str(o)))
 
 
-def unencodable(o):
-    return TypeError(repr(o) + " is not JSON serializable")
+class EncodeError(Exception):
+
+    def __init__(self, o):
+        self.message = "{} is not JSON serializable".format(repr(o))
 
 
 def encode(o, silent=True):
@@ -30,7 +32,7 @@ def encode(o, silent=True):
         if isinstance(o, rule[0]):
             return rule[1](o)
     if not silent:
-        raise unencodable(o)
+        raise EncodeError(o)
     return o
 
 
@@ -51,9 +53,7 @@ class JSONEncoder(FlaskJSONEncoder):
     def default(self, o):
         try:
             return encode(o, silent=False)
-        except TypeError as e:
-            if e != unencodable(o):
-                raise
+        except EncodeError:
             return super(JSONEncoder, self).default(o)
 
     def add_rule(type_or_tuple, function):

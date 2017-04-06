@@ -1,10 +1,26 @@
 import json
 import pytest
 from datetime import date, datetime
+from uuid import uuid4
 
-from flask_stupe.json import encode, encoder_rules, JSONEncoder
+from bson import ObjectId
+from flask_stupe.json import (encode, encoder_rules, handle_error, JSONEncoder,
+                              Response, Stupeflask)
+from werkzeug.exceptions import Forbidden, NotFound
+
+from tests.conftest import response_to_dict
 
 original_rules = encoder_rules[:]
+
+
+@pytest.fixture
+def json_app():
+    return Stupeflask(__name__)
+
+
+@pytest.fixture
+def client(json_app):
+    return json_app.test_client()
 
 
 @pytest.fixture(autouse=True)
@@ -23,13 +39,15 @@ class Foo:
 rule = (Foo, str)
 
 
-def test_encode(monkeypatch):
+def test_encode():
     assert isinstance(encode(datetime.utcnow()), str)
     assert isinstance(encode(date.today()), str)
 
     assert isinstance(encode(Foo("bar")), Foo)
-    with pytest.raises(TypeError):
+    with pytest.raises(Exception) as e:
         encode(Foo("bar"), silent=False)
+    assert e.typename == "EncodeError"
+    assert "not JSON serializable" in e.value.message
 
     encoder_rules.append(rule)
     assert encode(Foo("bar")) == "bar"
@@ -40,3 +58,97 @@ def test_encoder():
         json.dumps(Foo("bar"), cls=JSONEncoder)
     JSONEncoder.add_rule(*rule)
     assert json.dumps(Foo("bar"), cls=JSONEncoder) == '"bar"'
+
+
+def test_encoder_fallback():
+    uuid = uuid4()
+    assert json.dumps(uuid, cls=JSONEncoder) == '"{}"'.format(uuid)
+
+
+def test_bad_encoder_rule():
+    del encoder_rules[:]
+    JSONEncoder.add_rule(ObjectId, lambda o: int(o))
+
+    with pytest.raises(TypeError):
+        json.dumps(ObjectId(), cls=JSONEncoder)
+
+
+def test_handle_error(json_app):
+    with json_app.test_request_context():
+        assert handle_error(Exception()).status_code == 500
+        assert handle_error(NotFound()).status_code == 404
+        assert handle_error(Forbidden()).status_code == 403
+        data = json.loads(handle_error(Forbidden()).response[0])
+
+    assert data.pop("message") == Forbidden.description
+    assert data.pop("code") == 403
+    assert not data
+
+
+def test_stupeflask_response_content_type(json_app, client):
+    json_app.route("/")(lambda: None)
+    response = client.get("/")
+    assert response.content_type == "application/json"
+
+
+def test_stupeflask_empty_response(json_app, client):
+    json_app.route("/")(lambda: None)
+    response = client.get("/")
+    assert response.status_code == 200
+
+    response_dict = response_to_dict(response)
+    assert "data" not in response_dict
+    assert response_dict["code"] == 200
+
+
+def test_stupeflask_response_with_data(json_app, client):
+    json_app.route("/")(lambda: "foo")
+    response = client.get("/")
+    assert response.status_code == 200
+
+    response_dict = response_to_dict(response)
+    assert response_dict["data"] == "foo"
+    assert response_dict["code"] == 200
+
+
+def test_stupeflask_response_with_code(json_app, client):
+    json_app.route("/")(lambda: 201)
+    response = client.get("/")
+    assert response.status_code == 201
+
+    response_dict = response_to_dict(response)
+    assert "data" not in response_dict
+    assert response_dict["code"] == 201
+
+
+def test_stupeflask_response_with_data_and_code(json_app, client):
+    json_app.route("/")(lambda: ("foo", 201))
+    response = client.get("/")
+    assert response.status_code == 201
+
+    response_dict = response_to_dict(response)
+    assert response_dict["data"] == "foo"
+    assert response_dict["code"] == 201
+
+
+def test_stupeflask_converters(json_app, client):
+    @json_app.route("/<ObjectId:foo_id>")
+    def foo_id(foo_id):
+        return foo_id
+
+    object_id = ObjectId()
+    response = client.get("/{}".format(object_id))
+    assert response.status_code == 200
+
+    response_dict = response_to_dict(response)
+    assert response_dict["data"] == str(object_id)
+
+
+def test_stupeflask_direct_response(json_app, client):
+    json_app.route("/")(lambda: Response("foo"))
+    response = client.get("/")
+    assert response.status_code == 200
+
+    data = response.get_data().decode("utf-8")
+    assert "data" not in data
+    assert data == "foo"
