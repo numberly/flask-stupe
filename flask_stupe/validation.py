@@ -6,7 +6,7 @@ __all__ = []
 
 try:
     import marshmallow
-except ImportError:
+except ImportError:  # pragma: no cover
     marshmallow = False
 
 
