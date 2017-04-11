@@ -42,6 +42,7 @@ def test_ipv4():
     assert result.data['IP'] == '127.0.0.1'
 
     result = schema.load({'IP': '127.0.0'})
+    print(result)
     assert result.errors['IP'] == ['Not a valid IPv4 address.']
 
     result = schema.load({'IP': '256.256.256.256'})
