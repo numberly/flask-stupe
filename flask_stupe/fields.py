@@ -1,3 +1,4 @@
+import ipaddress
 import re
 
 from flask_stupe.validation import marshmallow
@@ -96,6 +97,31 @@ if marshmallow:
                 self.fail("invalid")
             return value
 
+    class IP(marshmallow.fields.String):
+        default_error_messages = {
+            "invalid": "Not a valid IPv4 or IPv6 address."
+        }
+        ip_type = staticmethod(ipaddress.ip_address)
+
+        def _deserialize(self, value, attr, data):
+            try:
+                self.ip_type(value)
+            except ValueError:
+                self.fail("invalid")
+            return value
+
+    class IPv4(IP):
+        default_error_messages = {
+            "invalid": "Not a valid IPv4 address."
+        }
+        ip_type = ipaddress.IPv4Address
+
+    class IPv6(IP):
+        default_error_messages = {
+            "invalid": "Not a valid IPv6 address."
+        }
+        ip_type = ipaddress.IPv6Address
+
     class OneOf(marshmallow.fields.Field):
         default_error_messages = {
             "invalid": "Object type doesn't match any valid type"
@@ -126,7 +152,7 @@ if marshmallow:
                     pass
             self.fail("invalid")
 
-    __all__.extend(["Color", "Currency", "OneOf"])
+    __all__.extend(["Color", "Currency", "IP", "Ipv4", "Ipv6", "OneOf"])
 
 
 if bson and marshmallow:
