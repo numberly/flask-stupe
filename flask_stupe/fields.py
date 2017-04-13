@@ -7,7 +7,7 @@ __all__ = []
 
 try:
     import bson
-except ImportError:
+except ImportError:  # pragma: no cover
     bson = False
 
 

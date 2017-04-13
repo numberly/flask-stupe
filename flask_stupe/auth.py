@@ -17,12 +17,10 @@ def permission_required(*permissions):
     def __decorator(function):
         @functools.wraps(function)
         def __inner(*args, **kwargs):
-            if hasattr(request.user, "permissions"):
-                user_permissions = getattr(request.user, "permissions")
-            elif isinstance(request.user, dict):
-                user_permissions = request.user.get("permissions")
+            if isinstance(request.user, dict):
+                user_permissions = request.user.get("permissions", [])
             else:
-                abort(403)
+                user_permissions = getattr(request.user, "permissions", [])
 
             for user_group in user_permissions:
                 if fnmatch.filter(permissions, user_group):

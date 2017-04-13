@@ -1,7 +1,7 @@
 import os
 from pkgutil import iter_modules
 
-from flask import Flask
+from flask import Blueprint, Flask
 
 from flask_stupe.config import Config
 from flask_stupe.converters import converters
@@ -62,11 +62,12 @@ class Stupeflask(Flask):
         for importer, name, is_pkg in iter_modules(package.__path__, prefix):
             module = importer.find_module(name).load_module(name)
             blueprint_name = name.rsplit('.')[-1]
-            if is_pkg:
-                self.register_blueprints(module)
-            elif hasattr(module, blueprint_name):
+            blueprint = getattr(module, blueprint_name, None)
+            if blueprint and isinstance(blueprint, Blueprint):
                 log.info(' * Registering blueprint {}'.format(name))
-                self.register_blueprint(getattr(module, blueprint_name))
+                self.register_blueprint(blueprint)
+            elif is_pkg:
+                self.register_blueprints(module)
 
 
 __all__ = ["Stupeflask"]

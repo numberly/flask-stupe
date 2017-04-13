@@ -4,7 +4,7 @@ from flask import request
 
 try:
     import pymongo
-except ImportError:
+except ImportError:  # pragma: no cover
     pymongo = False
 
 __all__ = []
@@ -14,10 +14,10 @@ if pymongo:
     def _paginate(cursor, skip=None, limit=None, sort=None):
         skip = request.args.get("skip", skip, type=int)
         if skip is not None:
-            cursor = cursor.skip(skip)
+            cursor.skip(skip)
         limit = request.args.get("limit", limit, type=int)
         if limit is not None:
-            cursor = cursor.limit(limit)
+            cursor.limit(limit)
 
         sort = request.args.get("sort", sort)
         if sort:

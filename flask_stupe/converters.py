@@ -15,7 +15,7 @@ try:
             return str(value)
 
     converters.append(ObjectIdConverter)
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
 
 __all__ = [converter.__name__ for converter in converters]
