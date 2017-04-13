@@ -176,3 +176,5 @@ def test_object_id():
     result = schema.load({"id": "fail"})
     assert result.errors["id"] == ["Not a valid ObjectId."]
 
+    result = schema.load({"id": 42})
+    assert result.errors["id"] == ["Invalid input type."]
