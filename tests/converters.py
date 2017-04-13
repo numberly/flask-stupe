@@ -20,5 +20,5 @@ def test_converter_to_url(app):
         return str(id)
 
     with app.test_request_context():
-        route = url_for('foo', id=ObjectId())
+        route = url_for("foo", id=ObjectId())
     assert route

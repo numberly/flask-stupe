@@ -46,19 +46,19 @@ def test_paginate_sort(app):
         @paginate(sort=["foo"])
         def foo():
             return Cursor([{"foo": 1}, {"foo": 3}, {"foo": 2}])
-        assert foo().data == [{'foo': 1}, {'foo': 2}, {'foo': 3}]
+        assert foo().data == [{"foo": 1}, {"foo": 2}, {"foo": 3}]
 
         @paginate(sort=["-bar"])
         def bar():
             return Cursor([{"bar": 1}, {"bar": 3}, {"bar": 2}])
-        assert bar().data == [{'bar': 3}, {'bar': 2}, {'bar': 1}]
+        assert bar().data == [{"bar": 3}, {"bar": 2}, {"bar": 1}]
 
         @paginate(sort="foo,-bar")
         def foobar():
             return Cursor([{"bar": 1}, {"bar": 3}, {"bar": 2},
                            {"foo": 1}, {"foo": 3}, {"foo": 2}])
-        assert foobar().data == [{'bar': 3}, {'bar': 2}, {'bar': 1},
-                                 {'foo': 1}, {'foo': 2}, {'foo': 3}]
+        assert foobar().data == [{"bar": 3}, {"bar": 2}, {"bar": 1},
+                                 {"foo": 1}, {"foo": 2}, {"foo": 3}]
 
 
 def test_paginate_cursor(app):

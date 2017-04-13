@@ -10,7 +10,7 @@ def test_unrequire():
         foo = Integer(required=True)
 
     schema = TestSchema()
-    assert schema.validate({}) == {'foo': ['Missing data for required field.']}
+    assert schema.validate({}) == {"foo": ["Missing data for required field."]}
 
     schema = TestSchema(unrequire=True)
     assert schema.validate({}) == {}
@@ -21,7 +21,7 @@ def test_unrequire_list():
         foo = List(Integer, required=True)
 
     schema = TestSchema()
-    assert schema.validate({}) == {'foo': ['Missing data for required field.']}
+    assert schema.validate({}) == {"foo": ["Missing data for required field."]}
 
     schema = TestSchema(unrequire=True)
     assert schema.validate({}) == {}
@@ -35,7 +35,7 @@ def test_unrequire_nested():
         foo = Nested(NestedSchema(), required=True)
 
     schema = TestSchema()
-    assert schema.validate({}) == {'foo': {'foo': ['Missing data for required field.']}}
+    assert schema.validate({}) == {"foo": {"foo": ["Missing data for required field."]}}
 
     schema = TestSchema(unrequire=True)
     assert schema.validate({}) == {}
