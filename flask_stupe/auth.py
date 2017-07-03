@@ -8,7 +8,7 @@ def auth_required(function):
     @functools.wraps(function)
     def __inner(*args, **kwargs):
         if not request.user:
-            abort(403)
+            abort(401)
         return function(*args, **kwargs)
     return __inner
 

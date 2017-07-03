@@ -13,7 +13,7 @@ def test_auth_required(app, client):
     def foo():
         return "bar"
 
-    assert client.get("/foo").status_code == 403
+    assert client.get("/foo").status_code == 401
     assert client.get("/foo?user=1").status_code == 200
 
 
