@@ -36,6 +36,7 @@ class Foo:
     def __str__(self):
         return self.value
 
+
 rule = (Foo, str)
 
 

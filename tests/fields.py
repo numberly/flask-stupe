@@ -1,7 +1,8 @@
 import bson
 import pytest
 
-from flask_stupe.fields import Cron, Color, Currency, OneOf, ObjectId, IP, IPv4, IPv6
+from flask_stupe.fields import (Cron, Color, Currency, OneOf, ObjectId, IP,
+                                IPv4, IPv6)
 from flask_stupe.validation import Schema
 from marshmallow.fields import Integer, String
 
@@ -132,7 +133,8 @@ def test_oneof(app):
     assert result.data["value_type"] == "test"
 
     result = schema.load({"value_type": ["42", 42]})
-    assert result.errors["value_type"] == ["Object type doesn't match any valid type"]
+    assert result.errors["value_type"] == [("Object type doesn't match any "
+                                            "valid type")]
 
     with pytest.raises(ValueError) as error:
         class TestSchema2(Schema):

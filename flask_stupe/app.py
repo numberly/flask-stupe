@@ -52,11 +52,11 @@ class Stupeflask(Flask):
     def register_blueprints(self, package):
         """Auto-discover blueprints and register them
 
-        It will look recursively in every module of the package to find a variable
-        that has the same name as its module.
+        It will look recursively in every module of the package to find a
+        variable that has the same name as its module.
 
-        It means that if a file called `foo.py` has an exportable variable called
-        `foo`, it will try to register that variable as a blueprint.
+        It means that if a file called `foo.py` has an exportable variable
+        called `foo`, it will try to register that variable as a blueprint.
         """
         prefix = package.__name__ + '.'
         for importer, name, is_pkg in iter_modules(package.__path__, prefix):

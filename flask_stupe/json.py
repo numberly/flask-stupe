@@ -57,8 +57,8 @@ class JSONEncoder(FlaskJSONEncoder):
     def add_rule(type_or_tuple, function):
         """Add a new serializing rule
 
-        A rule is defined by one or multiple types, and a function to execute in
-        order to serialize this or those types.
+        A rule is defined by one or multiple types, and a function to execute
+        in order to serialize this or those types.
 
         Dumb example:
             >>> app = flask.ext.stupe.json.Stupeflask(__name__)
@@ -78,8 +78,8 @@ def handle_error(e):
     {
         "code": 403,
         "message": "You don't have the permission to access the requested
-                    resource. It is either read-protected or not readable by the
-                    server."
+                    resource. It is either read-protected or not readable by
+                    the server."
     }
     """
     if not isinstance(e, HTTPException):
