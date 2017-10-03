@@ -1,7 +1,8 @@
 
 
-# vtr: The following content belongs to https://github.com/flask-restful
-# This function is found in https://github.com/flask-restful/flask-restful/
+# vtr: This function belongs to https://github.com/flask-restful/flask-restful
+# It is licensed under the BSD 3-clause "New" or "Revised" License
+# https://github.com/flask-restful/flask-restful/blob/master/LICENSE
 def boolean(value):
     """Parse the string ``"true"`` or ``"false"`` as a boolean (case
     insensitive). Also accepts ``"1"`` and ``"0"`` as ``True``/``False``
