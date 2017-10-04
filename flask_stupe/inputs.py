@@ -1,15 +1,13 @@
-__all__ = ["boolean"]
-
-
-# vtr: This function belongs to https://github.com/flask-restful/flask-restful
-# It is licensed under the BSD 3-clause "New" or "Revised" License
-# https://github.com/flask-restful/flask-restful/blob/master/LICENSE
 def boolean(value):
     """Parse the string ``"true"`` or ``"false"`` as a boolean (case
     insensitive). Also accepts ``"1"`` and ``"0"`` as ``True``/``False``
     (respectively). If the input is from the request JSON body, the type is
     already a native python boolean, and will be passed through without
     further parsing.
+
+    This function belongs to https://github.com/flask-restful/flask-restful
+    It is licensed under the BSD 3-clause "New" or "Revised" License
+    https://github.com/flask-restful/flask-restful/blob/master/LICENSE
     """
     if isinstance(value, bool):
         return value
@@ -22,3 +20,6 @@ def boolean(value):
     if value in ('false', '0',):
         return False
     raise ValueError("Invalid literal for boolean(): {0}".format(value))
+
+
+__all__ = ["boolean"]
