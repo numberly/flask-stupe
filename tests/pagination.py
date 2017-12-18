@@ -1,28 +1,7 @@
-import pymongo
-
+from flask import request
 from flask_stupe import paginate
 
-
-class Cursor(pymongo.cursor.Cursor):
-    def __init__(self, data):
-        self.data = data
-        self._Cursor__id = "42"
-        self._Cursor__killed = "42"
-
-    def skip(self, skip):
-        del self.data[:skip]
-        return self.data
-
-    def limit(self, limit):
-        del self.data[limit:]
-        return self.data
-
-    def sort(self, sort):
-        for sort_key, order in reversed(sort):
-            self.data = sorted(self.data, key=lambda d: d.get(sort_key, 0))
-            if order == -1:
-                self.data.reverse()
-        return self.data
+from tests.conftest import Cursor
 
 
 def test_paginate_skip(app):
@@ -31,6 +10,7 @@ def test_paginate_skip(app):
         def foo():
             return Cursor([1, 2, 3])
         assert foo().data == [3]
+        assert request.metadata["count"] == 3
 
 
 def test_paginate_limit(app):
@@ -39,6 +19,7 @@ def test_paginate_limit(app):
         def foo():
             return Cursor([1, 2, 3])
         assert foo().data == [1, 2]
+        assert request.metadata["count"] == 3
 
 
 def test_paginate_sort(app):

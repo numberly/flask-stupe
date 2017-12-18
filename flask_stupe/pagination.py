@@ -11,7 +11,10 @@ __all__ = []
 
 
 if pymongo:
-    def _paginate(cursor, skip=None, limit=None, sort=None):
+    def _paginate(cursor, skip=None, limit=None, sort=None, count=True):
+        if count:
+            request.metadata.update(count=cursor.count())
+
         skip = request.args.get("skip", skip, type=int)
         if skip is not None:
             cursor.skip(skip)
@@ -33,15 +36,17 @@ if pymongo:
             cursor.sort(sort)
         return cursor
 
-    def paginate(function_or_cursor=None, skip=None, limit=None, sort=None):
+    def paginate(function_or_cursor=None, skip=None, limit=None, sort=None,
+                 count=True):
         """Apply pagination to the given cursor or function"""
         if isinstance(function_or_cursor, pymongo.cursor.Cursor):
-            return _paginate(function_or_cursor, skip, limit, sort)
+            return _paginate(function_or_cursor, skip, limit, sort, count)
 
         def __decorator(function):
             @functools.wraps(function)
             def __wrapper(*args, **kwargs):
-                return _paginate(function(*args, **kwargs), skip, limit, sort)
+                cursor = function(*args, **kwargs)
+                return _paginate(cursor, skip, limit, sort, count)
             return __wrapper
 
         if function_or_cursor:

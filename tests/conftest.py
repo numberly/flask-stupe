@@ -1,5 +1,6 @@
 import json
 import os
+import pymongo
 import pytest
 
 from flask_stupe.app import Stupeflask
@@ -24,6 +25,34 @@ def test_apps(monkeypatch):
             os.path.dirname(__file__), "test_apps")
         )
     )
+
+
+class Cursor(pymongo.cursor.Cursor):
+    def __init__(self, data):
+        self.data = data
+        self._Cursor__id = "42"
+        self._Cursor__killed = "42"
+
+    def skip(self, skip):
+        del self.data[:skip]
+        return self.data
+
+    def limit(self, limit):
+        del self.data[limit:]
+        return self.data
+
+    def sort(self, sort):
+        for sort_key, order in reversed(sort):
+            self.data = sorted(self.data, key=lambda d: d.get(sort_key, 0))
+            if order == -1:
+                self.data.reverse()
+        return self.data
+
+    def count(self):
+        return len(self.data)
+
+    def clone(self):
+        return Cursor(self.data)
 
 
 def response_to_dict(response):
