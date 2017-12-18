@@ -6,10 +6,12 @@ from flask import Blueprint, Flask
 from flask_stupe.config import Config
 from flask_stupe.converters import converters
 from flask_stupe.logging import log
+from flask_stupe.request import Request
 
 
 class Stupeflask(Flask):
     config_class = Config
+    request_class = Request
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)

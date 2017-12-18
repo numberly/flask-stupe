@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from flask import jsonify
+from flask import jsonify, request
 from flask import Response as FlaskResponse
 from flask.json import JSONEncoder as FlaskJSONEncoder
 from werkzeug.exceptions import (default_exceptions, HTTPException,
@@ -106,11 +106,13 @@ class Stupeflask(BaseStupeflask):
         else:
             data = rv
 
-        if data is None:
-            rv = jsonify(code=code)
-        else:
-            rv = jsonify(code=code, data=data)
+        rv = {"code": code}
+        if data:
+            rv.update(data=data)
+        if request.metadata:
+            rv.update(**request.metadata)
 
+        rv = jsonify(rv)
         rv.status_code = code
         return rv
 

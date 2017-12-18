@@ -132,6 +132,21 @@ def test_stupeflask_response_with_data_and_code(json_app, client):
     assert response_dict["code"] == 201
 
 
+def test_stupeflask_response_with_metadata(json_app, client):
+    @json_app.route("/")
+    def foo():
+        from flask import request
+        request.metadata.update(bar="baz")
+
+    response = client.get("/")
+    assert response.status_code == 200
+
+    response_dict = response_to_dict(response)
+    assert "data" not in response_dict
+    assert response_dict["code"] == 200
+    assert response_dict["bar"] == "baz"
+
+
 def test_stupeflask_converters(json_app, client):
     @json_app.route("/<ObjectId:foo_id>")
     def foo_id(foo_id):
