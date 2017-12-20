@@ -27,7 +27,10 @@ def test_apps(monkeypatch):
     )
 
 
+# ramnes: we're just inheriting from pymongo.cursor.Cursor so that paginate can
+# understand it's not a function to decorate
 class Cursor(pymongo.cursor.Cursor):
+
     def __init__(self, data):
         self.data = data
         self._Cursor__id = "42"
