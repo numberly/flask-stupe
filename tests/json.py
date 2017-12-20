@@ -6,9 +6,10 @@ from uuid import uuid4
 from bson import ObjectId
 from flask_stupe.json import (encode, encoder_rules, handle_error, JSONEncoder,
                               Response, Stupeflask)
+from flask_stupe.pagination import paginate
 from werkzeug.exceptions import Forbidden, NotFound
 
-from tests.conftest import response_to_dict
+from tests.conftest import Cursor, response_to_dict
 
 original_rules = encoder_rules[:]
 
@@ -130,6 +131,38 @@ def test_stupeflask_response_with_data_and_code(json_app, client):
     response_dict = response_to_dict(response)
     assert response_dict["data"] == "foo"
     assert response_dict["code"] == 201
+
+
+def test_stupeflask_response_with_metadata(json_app, client):
+    @json_app.route("/")
+    def foo():
+        from flask import request
+        request.metadata.update(bar="baz")
+
+    response = client.get("/")
+    assert response.status_code == 200
+
+    response_dict = response_to_dict(response)
+    assert "data" not in response_dict
+    assert response_dict["code"] == 200
+    assert response_dict["bar"] == "baz"
+
+
+def test_stupeflask_response_with_paginate(json_app, client):
+    encoder_rules.append((Cursor, lambda c: c.data))
+
+    @json_app.route("/")
+    @paginate(limit=2)
+    def foo():
+        return Cursor([1, 2, 3])
+
+    response = client.get("/")
+    assert response.status_code == 200
+
+    response_dict = response_to_dict(response)
+    assert len(response_dict["data"]) == 2
+    assert response_dict["code"] == 200
+    assert response_dict["count"] == 3
 
 
 def test_stupeflask_converters(json_app, client):
