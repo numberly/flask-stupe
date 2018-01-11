@@ -107,7 +107,7 @@ class Stupeflask(BaseStupeflask):
             data = rv
 
         rv = {"code": code}
-        if data:
+        if data is not None:
             rv.update(data=data)
         if request.metadata:
             rv.update(**request.metadata)
