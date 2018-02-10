@@ -5,3 +5,5 @@ marshmallow
 pytest
 pytest-cov
 pytest-catchlog
+
+Sphinx
