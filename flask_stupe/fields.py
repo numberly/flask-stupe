@@ -155,7 +155,7 @@ if marshmallow:
                     pass
             self.fail("invalid")
 
-    __all__.extend(["Color", "Currency", "IP", "Ipv4", "Ipv6", "OneOf"])
+    __all__.extend(["Color", "Currency", "IP", "IPv4", "IPv6", "OneOf"])
 
 
 if bson and marshmallow:
