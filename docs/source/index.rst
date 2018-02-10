@@ -13,6 +13,7 @@ Welcome to Flask-Stupe's documentation!
    config
    objectid
    reference
+   showcase
 
 
 
