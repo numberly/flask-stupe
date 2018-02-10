@@ -80,12 +80,15 @@ def handle_error(e):
     """Convert any exception into a JSON message, with a proper HTTP code
 
     The JSON message will have the following form:
-    {
-        "code": 403,
-        "message": "You don't have the permission to access the requested
-                    resource. It is either read-protected or not readable by
-                    the server."
-    }
+
+    .. code-block:: json
+
+        {
+            "code": 403,
+            "message": "You don't have the permission to access the requested
+                        resource. It is either read-protected or not readable
+                        by the server."
+        }
     """
     if not isinstance(e, HTTPException):
         e = InternalServerError()
