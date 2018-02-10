@@ -16,7 +16,12 @@ def _str2list(v):
 class Config(FlaskConfig):
 
     def from_env(self):
-        """Try to overload the config with the environment"""
+        """Try to overload the config with the environment.
+
+        Take each key in the config and, if it is present as an environment
+        variable, replace the current value with the environment one, casting
+        it in the appropriate type.
+        """
         env_config = {}
         for key, value in self.items():
             if key in os.environ:
