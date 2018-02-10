@@ -11,6 +11,7 @@ Welcome to Flask-Stupe's documentation!
    :caption: Contents:
 
    config
+   objectid
    reference
 
 
