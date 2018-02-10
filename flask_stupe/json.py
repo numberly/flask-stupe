@@ -26,6 +26,11 @@ class EncodeError(Exception):
 
 
 def encode(o, silent=True):
+    """Recursively encode a python object in a format serializable in json.
+
+    If you want to add such encoding for other types, see
+    :meth:`JSONEncoder.add_rule`.
+    """
     for rule in encoder_rules:
         if isinstance(o, rule[0]):
             return rule[1](o)
