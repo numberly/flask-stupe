@@ -31,6 +31,7 @@ class Stupeflask(Flask):
         Python object, passed as an argument to the endpoint function.
 
         Stupeflask currently implement the following converters:
+
         - /<ObjectId>/ with ::ObjectIdConverter
 
         See `Werkzeug documentation about custom converters
