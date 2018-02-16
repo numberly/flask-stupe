@@ -11,6 +11,14 @@ def auth_required(function):
     that authenticate requests when possible. It must then expose a `user`
     attribute on the :obj:`flask.request` object.
 
+    .. code-block:: python
+
+        @app.before_request
+        def get_user():
+            token = request.args.get("token")
+            if verify_token(token):
+                request.user = {"username": "toto"}
+
     A view decorated with :func:`auth_required` will be aborted with a status
     code 401 if the user making the request is not authenticated.
     """
