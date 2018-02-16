@@ -6,6 +6,11 @@
 Welcome to Flask-Stupe's documentation!
 =======================================
 
+.. include:: quickstart.rst
+
+Summary
+=======
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
