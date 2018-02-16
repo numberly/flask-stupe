@@ -10,6 +10,7 @@ Welcome to Flask-Stupe's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   application
    config
    objectid
    reference
