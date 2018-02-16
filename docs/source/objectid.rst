@@ -23,5 +23,6 @@ Marshmallow field
 Stupeflask features a field (:class:`flask_stupe.fields.ObjectId`)
 for ObjectIds.
 
-Used with :func:`flask_stupe.validation.schema_required`, it allow to
+If the `bson` module exists (for example if you're using MongoDB), you can
+use it with :func:`flask_stupe.validation.schema_required`. It allow to
 automaticaly cast indicated fields from string to ObjectId.
