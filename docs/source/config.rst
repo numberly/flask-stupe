@@ -1,7 +1,7 @@
 Easier collection of configuration values
 #########################################
 
-Stupeflask make it easier to collect configuration variables from different
+Stupeflask makes it easier to collect configuration variables from different
 sources.
 
 config.py
