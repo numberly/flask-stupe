@@ -8,7 +8,7 @@ config.py
 =========
 
 If a file named `config.py` is present in the working directory, it will be
-imported and used as configuration file for your application.
+imported and used as the configuration file for your application.
 
 $CONFIG
 =======
