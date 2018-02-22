@@ -27,15 +27,15 @@ Add JSON encoding for objects
 -----------------------------
 
 If you want to add serialization methods for other custom types, you can!
-You'll need to call ;method:`Stupeflask.json_encoder.add_rule`.
+You'll need to call :method:`Stupeflask.json_encoder.add_rule`.
 
 .. code-block:: python
 
-    import _sre
-    app.json_encoder.add_rule(_sre.SRE_Pattern)
+    import uuid
+    app.json_encoder.add_rule(uuid.UUID, lambda uuid: str(uuid))
 
 
-This snippet show how to add a serializer for regexes. (SRE_Pattern is the object yielded by a :func:`re.compile` call)
+This snippet show how to add a serializer for UUIDs.
 
 Import all blueprints from a package
 ====================================

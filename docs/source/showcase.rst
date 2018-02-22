@@ -40,16 +40,6 @@ Stupeflask
     def get_user(id):
         return users.find_one({"_id": id})
 
-
-    if __name__ == '__main__':
-        client = app.test_client()
-        data = json.dumps({"username": "Trotro", "password": "rigolo"})
-        response = client.post("/user", data=data)
-        response = json.loads(response.get_data().decode("utf-8"))
-        userid = response.get("data", {}).get("_id")
-        response2 = client.get("/user/" + userid)
-        assert response2.status_code == 200
-
 Flask
 =====
 
@@ -80,7 +70,8 @@ Flask
         if validation_result.errors:
             abort(400, validation_result.errors)
         result = users.insert_one(validation_result.data)
-        validation_result.data.update(_id=str(result.inserted_id))
+        inserted_id = str(result.inserted_id)
+        validation_result.data.update(_id=inserted_id)
         return jsonify(validation_result.data)
 
 
@@ -93,13 +84,3 @@ Flask
         user = users.find_one({"_id": id})
         user["_id"] = str(user["_id"])
         return jsonify(user)
-
-
-    if __name__ == '__main__':
-        client = app.test_client()
-        data = json.dumps({"username": "Trotro", "password": "rigolo"})
-        response = client.post("/user", data=data)
-        response = json.loads(response.get_data().decode("utf-8"))
-        userid = response.get("_id")
-        response2 = client.get("/user/" + userid)
-        assert response2.status_code == 200
