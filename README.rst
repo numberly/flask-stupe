@@ -4,8 +4,7 @@ Flask-Stupe
 
 *a.k.a. « Flask on steroids »*
 
-Flask-Stupe provides better defaults for APIs and more features. It is biased
-towards marshmallow_ and MongoDB_ users, so more power to them.
+A better Flask biased towards marshmallow_ and MongoDB_ users!
 
 Features
 ========
