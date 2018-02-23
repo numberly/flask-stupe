@@ -20,9 +20,9 @@ Any ObjectIds a in JSON response will be coerced to string automaticaly.
 Marshmallow field
 =================
 
-Stupeflask features a field (:class:`flask_stupe.fields.ObjectId`)
+Stupeflask features a field (:class:`~flask_stupe.fields.ObjectId`)
 for ObjectIds.
 
 If the `bson` module exists (for example if you're using MongoDB), you can
-use it with :func:`flask_stupe.validation.schema_required`. It allows to
+use it with :func:`~flask_stupe.validation.schema_required`. It allows to
 automaticaly cast indicated fields from string to ObjectId.
