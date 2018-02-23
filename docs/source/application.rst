@@ -27,7 +27,7 @@ Add JSON encoding for objects
 -----------------------------
 
 If you want to add serialization methods for other custom types, you can!
-You'll need to call :method:`Stupeflask.json_encoder.add_rule`.
+You'll need to call :meth:`Stupeflask.json_encoder.add_rule`.
 
 .. code-block:: python
 
