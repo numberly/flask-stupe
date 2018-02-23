@@ -45,6 +45,24 @@ You can easily add a bunch of blueprints by passing a package to the
 all the package's modules and import a variable named like the module. If this
 is a blueprint, it will be registered into the application.
 
+For example, this snippet:
+
+.. code-block:: python
+
+    from application.views.user import user
+    from application.views.pets import pets
+    from application.views.family import family
+    app.register_blueprint(user)
+    app.register_blueprint(pets)
+    app.register_blueprint(family)
+
+Becomes:
+
+.. code-block:: python
+
+    from application import views
+    app.register_blueprints(views)
+
 Add path converters
 ===================
 
