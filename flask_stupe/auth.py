@@ -34,7 +34,7 @@ def permission_required(*permissions):
     """Decorator checking that the request is made by an user with adequate
     privileges.
 
-    This decorator also decorate the function with the :func:`auth_required`
+    This decorator also decorates the function with the :func:`auth_required`
     doecorator, thus the same constraints apply here.
 
     If the :obj:`flask.request.user` is a dictionnary, it must contains a

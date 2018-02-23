@@ -28,7 +28,7 @@ Additionnal features
 
     * Add JSON converters
     * Fetch blueprints from a whole module
-    * Validate payload through marshmallow_ schemas
+    * Validate payloads through marshmallow_ schemas
     * More marshmallow_ fields
 
 Build the documentation

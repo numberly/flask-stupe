@@ -14,7 +14,7 @@ $CONFIG
 =======
 
 If an environment variable named `CONFIG` exists, its value will be imported as
-a python configuration file.
+a Python configuration file.
 
 Environment
 ===========

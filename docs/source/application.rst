@@ -1,7 +1,7 @@
 Better application defaults
 ###########################
 
-Stupeflask make it easy to use JSON to build APIs. A perfect example is the
+Stupeflask makes it easy to use JSON to build APIs. A perfect example is the
 :class:`flask_stupe.json.Stupeflask` application.
 
 Better support for JSON based APIs
@@ -10,7 +10,7 @@ Better support for JSON based APIs
 Automatic conversion to JSON
 ----------------------------
 
-By using the JSON version of Stupeflask, every python object your views returns
+By using the JSON version of Stupeflask, every Python object your views returns
 that is not a :class:`Response` object will be JSON serialized. With that in
 mind, you can do that kind of things:
 
@@ -35,7 +35,7 @@ You'll need to call :method:`Stupeflask.json_encoder.add_rule`.
     app.json_encoder.add_rule(uuid.UUID, lambda uuid: str(uuid))
 
 
-This snippet show how to add a serializer for UUIDs.
+This snippet shows how to add a serializer for UUIDs.
 
 Import all blueprints from a package
 ====================================
