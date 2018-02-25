@@ -8,7 +8,7 @@ Welcome to Flask-Stupe's documentation!
 
 *a.k.a. « Flask on steroids »*
 
-A better Flask biased towards marshmallow_ and MongoDB_ users!
+A better Flask inclined towards marshmallow_ and MongoDB_ users!
 
 
 Features
