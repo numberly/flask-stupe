@@ -20,7 +20,7 @@ ObjectId support
 
     * Optional JSON output
     * Route converter (eg. */user/<ObjectId>*)
-    * Marshmallow_ field
+    * marshmallow_ field
 
 Additionnal features
 --------------------
