@@ -1,6 +1,6 @@
-===========
-Flask-Stupe
-===========
+==========
+Stupeflask
+==========
 
 *a.k.a. « Flask on steroids »*
 

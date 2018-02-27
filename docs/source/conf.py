@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Flask-Stupe documentation build configuration file, created by
+# Stupeflask documentation build configuration file, created by
 # sphinx-quickstart on Sat Feb 10 19:11:24 2018.
 #
 # This file is execfile()d with the current directory set to its
@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Flask-Stupe'
+project = 'Stupeflask'
 copyright = '2018, numberly'
 author = 'numberly'
 
@@ -119,7 +119,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Flask-Stupedoc'
+htmlhelp_basename = 'Stupeflaskdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -146,7 +146,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Flask-Stupe.tex', 'Flask-Stupe Documentation',
+    (master_doc, 'Stupeflask.tex', 'Stupeflask Documentation',
      'numberly', 'manual'),
 ]
 
@@ -156,7 +156,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'flask-stupe', 'Flask-Stupe Documentation',
+    (master_doc, 'flask-stupe', 'Stupeflask Documentation',
      [author], 1)
 ]
 
@@ -167,7 +167,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Flask-Stupe', 'Flask-Stupe Documentation',
-     author, 'Flask-Stupe', 'One line description of project.',
+    (master_doc, 'Stupeflask', 'Stupeflask Documentation',
+     author, 'Stupeflask', 'One line description of project.',
      'Miscellaneous'),
 ]
