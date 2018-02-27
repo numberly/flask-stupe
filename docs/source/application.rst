@@ -27,7 +27,8 @@ Add JSON encoding for objects
 -----------------------------
 
 If you want to add serialization methods for other custom types, you can!
-You'll need to call :meth:`~flask_stupe.json.JSONEncoder.add_rule`.
+You'll need to call :meth:`JSONEncoder.add_rule()
+<flask_stupe.json.JSONEncoder.add_rule>`.
 
 .. code-block:: python
 
@@ -41,9 +42,10 @@ Import all blueprints from a package
 ====================================
 
 You can easily add a bunch of blueprints by passing a package to the
-:meth:`~flask_stupe.app.Stupeflask.register_blueprints`. It will search through
-all the package's modules and import a variable named like the module. If this
-is a blueprint, it will be registered into the application.
+:meth:`Stupeflask.register_blueprints()
+<flask_stupe.app.Stupeflask.register_blueprints>`. It will search through all
+the package's modules and import a variable named like the module. If this is a
+blueprint, it will be registered into the application.
 
 For example, this snippet:
 
@@ -67,7 +69,8 @@ Add path converters
 ===================
 
 With Stupeflask, you can add path converters with
-:meth:`~flask_stupe.app.Stupeflask.register_converter`.
+:meth:`Stupeflask.register_converter()
+<flask_stupe.app.Stupeflask.register_converter>`.
 
 Please head towards werkzeug's `documentation about converters`_ if you want to
 learn more.
