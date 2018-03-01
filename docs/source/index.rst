@@ -8,7 +8,8 @@ Welcome to Stupeflask's documentation!
 
 *a.k.a. « Flask on steroids »*
 
-A better Flask inclined towards marshmallow_ and MongoDB_ users!
+An opinionated Flask extension designed by and for web developers who want
+better defaults for MongoDB, Marshmallow and/or crafting JSON APIs.
 
 
 Features
