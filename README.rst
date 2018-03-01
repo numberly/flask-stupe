@@ -2,6 +2,9 @@
 Stupeflask
 ==========
 
+.. image:: stupeflask.png
+    :target: https://youtu.be/PdaAHMztNVE
+
 *a.k.a. « Flask on steroids »*
 
 A better Flask inclined towards marshmallow_ and MongoDB_ users!
