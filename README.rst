@@ -12,20 +12,20 @@ Features
 Better defaults
 ---------------
 
-* Easier to set configuration
-* Wrap objects returned by views in a Response
+* Easier to override configuration with environment
+* Return any object type
 
 ObjectId support
 ----------------
 
-* Optional JSON output
-* Route converter (eg. */user/<ObjectId>*)
+* Automatic JSON serialization
+* Route converter (eg. */user/<ObjectId:id>*)
 * marshmallow_ field
 
 Additionnal features
 --------------------
 
-* Add JSON converters
+* Add JSON converters for custom types
 * Fetch blueprints from a whole module
 * Validate payloads through marshmallow_ schemas
 * More marshmallow_ fields
