@@ -4,7 +4,7 @@
 *a.k.a. « Flask on steroids »*
 
 An opinionated Flask extension designed by and for web developers who want
-better defaults for MongoDB_, marshmallow_ and/or crafting JSON APIs.
+better defaults and tools for MongoDB_, marshmallow_ and/or crafting JSON APIs.
 
 Features
 ========
