@@ -15,6 +15,7 @@ Documentation
    config
    objectid
    reference
+   cursor
    showcase
 
 Indices and tables
