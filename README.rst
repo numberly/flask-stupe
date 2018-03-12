@@ -15,6 +15,7 @@ Features
 * Validate payloads through marshmallow_ schemas
 * ObjectId native support
 * Fetch blueprints from a whole module
+* Decorators to handle authentifications and permissions
 
 .. _marshmallow: https://marshmallow.readthedocs.io/en/latest/
 .. _MongoDB: https://www.mongodb.com/
