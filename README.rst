@@ -9,8 +9,8 @@ better defaults and tools for MongoDB_, marshmallow_ and/or crafting JSON APIs.
 Features
 ========
 
-* powerful configuration management
-* Return any object type
+* Powerful configuration management
+* Return any object type in views; It will be coerced to `flask.Response`
 * Add JSON converters for custom types
 * Validate payloads through marshmallow_ schemas
 * ObjectId native support
