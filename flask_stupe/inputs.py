@@ -1,3 +1,9 @@
+try:
+    from bson import ObjectId
+except ImportError:  # pragma: no cover
+    ObjectId = False
+
+
 def boolean(value):
     """Parse the string ``"true"`` or ``"false"`` as a boolean (case
     insensitive). Also accepts ``"1"`` and ``"0"`` as ``True``/``False``
@@ -30,3 +36,11 @@ def str_list(value):
 
 
 __all__ = ["boolean", "str_list"]
+
+
+if ObjectId:
+    def objectid_list(value):
+        """Separate a string in multiple ObjectIds separated by comma."""
+        return [ObjectId(element) for element in str_list(value)]
+
+    __all__.append("objectid_list")
