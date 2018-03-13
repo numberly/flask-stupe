@@ -16,7 +16,6 @@ Documentation
    objectid
    reference
    cursor
-   showcase
 
 Indices and tables
 ==================
