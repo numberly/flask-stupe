@@ -22,4 +22,11 @@ def boolean(value):
     raise ValueError("Invalid literal for boolean(): {0}".format(value))
 
 
-__all__ = ["boolean"]
+def str_list(value):
+    """Separate a string in multiple elements separated by comma."""
+    if not value:
+        return []
+    return value.split(",")
+
+
+__all__ = ["boolean", "str_list"]

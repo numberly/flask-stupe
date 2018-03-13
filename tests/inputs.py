@@ -21,3 +21,10 @@ def test_boolean():
 
     with pytest.raises(ValueError):
         boolean("invalid_string")
+
+
+def test_str_list():
+    assert str_list("") == []
+    assert str_list("foo") == ["foo"]
+    assert str_list("foo,bar") == ["foo", "bar"]
+    assert str_list("foo,baz,bar") == ["foo", "baz", "bar"]
