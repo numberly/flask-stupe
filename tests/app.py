@@ -1,3 +1,4 @@
+import logging
 import pytest
 
 from flask_stupe.config import Config
@@ -40,6 +41,7 @@ def test_register_converters(app, client):
 def test_register_blueprints(test_apps, caplog, app):
     import blueprintapp
 
+    caplog.set_level(logging.INFO)
     app.register_blueprints(blueprintapp)
     messages = [record.message for record in caplog.records]
     assert " * Registering blueprint blueprintapp.apps.admin" in messages
