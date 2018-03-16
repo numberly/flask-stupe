@@ -126,6 +126,10 @@ if marshmallow:
         ip_type = ipaddress.IPv6Address
 
     class OneOf(marshmallow.fields.Field):
+        """Validate a value against several fields until one match.
+
+        :param fields: The list of fields to check.
+        """
         default_error_messages = {
             "invalid": "Object type doesn't match any valid type"
         }

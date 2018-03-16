@@ -38,7 +38,7 @@ if pymongo:
 
     def paginate(function_or_cursor=None, skip=None, limit=None, sort=None,
                  count=True):
-        """Apply pagination to the given cursor or function"""
+        """Apply pagination to the given MongoDB cursor or function"""
         if isinstance(function_or_cursor, pymongo.cursor.Cursor):
             return _paginate(function_or_cursor, skip, limit, sort, count)
 

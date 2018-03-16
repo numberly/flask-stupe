@@ -27,10 +27,11 @@ class Stupeflask(Flask):
     def register_converter(self, converter, name=None):
         """Register a new converter that can be used in endpoints URLs
 
-        A converter is a Werkzeug class that transform a part of an URL to a
+        A converter is a Werkzeug class that transforms a part of an URL to a
         Python object, passed as an argument to the endpoint function.
 
-        Stupeflask currently implement the following converters:
+        Stupeflask currently implements the following converters:
+
         - /<ObjectId>/ with ::ObjectIdConverter
 
         See `Werkzeug documentation about custom converters

@@ -26,6 +26,14 @@ class EncodeError(Exception):
 
 
 def encode(o, silent=True):
+    """Recursively encode a Python object in a JSON serializable format.
+
+    objects natively supported by json's library are obviously supported, but
+    so are datetimes, and ObjectId (if bson is installed).
+
+    If you want to add such encoding for custom types, see
+    :meth:`JSONEncoder.add_rule`.
+    """
     for rule in encoder_rules:
         if isinstance(o, rule[0]):
             return rule[1](o)
@@ -75,12 +83,15 @@ def handle_error(e):
     """Convert any exception into a JSON message, with a proper HTTP code
 
     The JSON message will have the following form:
-    {
-        "code": 403,
-        "message": "You don't have the permission to access the requested
-                    resource. It is either read-protected or not readable by
-                    the server."
-    }
+
+    .. code-block:: json
+
+        {
+            "code": 403,
+            "message": "You don't have the permission to access the requested
+                        resource. It is either read-protected or not readable
+                        by the server."
+        }
     """
     if not isinstance(e, HTTPException):
         e = InternalServerError()
