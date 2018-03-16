@@ -33,8 +33,9 @@ class Cursor(pymongo.cursor.Cursor):
 
     def __init__(self, data):
         self.data = data
-        self._Cursor__id = "42"
-        self._Cursor__killed = "42"
+
+    def __del__(self):
+        pass
 
     def skip(self, skip):
         del self.data[:skip]
