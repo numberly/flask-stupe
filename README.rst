@@ -25,11 +25,49 @@ applications. Both have the same behaviour. They rely on MongoDB, hangles input
 and output in JSON and allow to create an user, as well as retrieving a user,
 by its *id*.
 
-+-------------------------------------------------+-------------------------------------------------+
-| **Stupeflask**                                  | **Bare Flask**                                  |
-+-------------------------------------------------+-------------------------------------------------+
-| .. literalinclude:: examples/user_api_stupe.py  | .. literalinclude:: examples/user_api_flask.py  |
-+-------------------------------------------------+-------------------------------------------------+
++--------------------------------------------------------+-----------------------------------------------------+
+| **Bare Flask**                                         | **With Stupeflask**                                 |
++--------------------------------------------------------+-----------------------------------------------------+
+|.. code-block:: python                                  |.. code-block:: python                               |
+|                                                        |                                                     |
+|  from bson import ObjectId                             |  from flask import request                          |
+|  from flask import abort, Flask, jsonify, request      |  from flask_stupe import schema_required            |
+|  from marshmallow import Schema                        |  from flask_stupe.json import Stupeflask            |
+|  from marshmallow.fields import String                 |  from marshmallow import Schema                     |
+|  from pymongo import MongoClient                       |  from marshmallow.fields import String              |
+|                                                        |  from pymongo import MongoClient                    |
+|  app = Flask(__name__)                                 |                                                     |
+|  users = MongoClient().database.users                  |  app = Stupeflask(__name__)                         |
+|                                                        |  users = MongoClient().database.users               |
+|                                                        |                                                     |
+|  class UserSchema(Schema):                             |                                                     |
+|      username = String(required=True)                  |  class UserSchema(Schema):                          |
+|      password = String()                               |      username = String(required=True)               |
+|                                                        |      password = String()                            |
+|                                                        |                                                     |
+|  @app.route("/user", methods=["POST"])                 |                                                     |
+|  def post_user():                                      |  @app.route("/user", methods=["POST"])              |
+|      json = request.get_json(force=True)               |  @schema_required(UserSchema)                       |
+|      validation_result = UserSchema().load(json)       |  def post_user():                                   |
+|      if validation_result.errors:                      |      result = users.insert_one(request.schema)      |
+|          abort(400, validation_result.errors)          |      request.schema.update(_id=result.inserted_id)  |
+|      result = users.insert_one(validation_result.data) |      return request.schema                          |
+|      inserted_id = str(result.inserted_id)             |                                                     |
+|      validation_result.data.update(_id=inserted_id)    |                                                     |
+|      return jsonify(validation_result.data)            |  @app.route("/user/<ObjectId:id>")                  |
+|                                                        |  def get_user(id):                                  |
+|                                                        |      return users.find_one({"_id": id})             |
+|  @app.route("/user/<id>")                              |                                                     |
+|  def get_user(id):                                     |                                                     |
+|      try:                                              |                                                     |
+|          id = ObjectId(id)                             |                                                     |
+|      except ValueError:                                |                                                     |
+|          abort(404)                                    |                                                     |
+|      user = users.find_one({"_id": id})                |                                                     |
+|      user["_id"] = str(user["_id"])                    |                                                     |
+|      return jsonify(user)                              |                                                     |
++--------------------------------------------------------+-----------------------------------------------------+
+
 
 .. _marshmallow: https://marshmallow.readthedocs.io/en/latest/
 .. _MongoDB: https://www.mongodb.com/
