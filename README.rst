@@ -18,6 +18,7 @@ Features
 * Native ObjectId support
 * Powerful configuration management
 * Decorators to handle authentication and permissions
+* 100% coverage and no dependency
 
 
 Comparison
