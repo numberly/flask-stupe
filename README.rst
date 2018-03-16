@@ -6,24 +6,26 @@
 An opinionated Flask extension designed by and for web developers to reduce
 boilerplate code when working with Marshmallow, MongoDB and/or JSON.
 
+
 Features
 ========
 
-* Powerful configuration management
-* Return any object type in views; It will be coerced to `flask.Response`
-* Add JSON converters for custom types
+* Return any object type in views, and it will be coerced to a
+  :code:`flask.Response`
 * Validate payloads through marshmallow_ schemas
-* ObjectId native support
-* Fetch blueprints from a whole module
-* Decorators to handle authentifications and permissions
+* Easily add JSON converters for any custom type
+* Fetch all the blueprints from a whole module in one line
+* Native ObjectId support
+* Powerful configuration management
+* Decorators to handle authentication and permissions
+
 
 Comparison
 ==========
 
-Here is a comparison between the efficiency of a Stupeflask and a simple Flask
-applications. Both have the same behaviour. They rely on MongoDB, hangles input
-and output in JSON and allow to create an user, as well as retrieving a user,
-by its *id*.
+Here is a comparison of a bare Flask application and its equivalent Stupeflask
+version. They both rely on MongoDB, handle input and output in JSON, and allow
+to create or retrieve an user.
 
 +--------------------------------------------------------+-----------------------------------------------------+
 | **Bare Flask**                                         | **With Stupeflask**                                 |
