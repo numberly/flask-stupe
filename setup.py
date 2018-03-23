@@ -8,7 +8,7 @@ def get_description():
 
 setup(
     name='Flask-Stupe',
-    version='0.1',
+    version='3.5.0',
     url='https://github.com/numberly/flask-stupe',
     license='MIT',
     author='Guillaume Gelin',
