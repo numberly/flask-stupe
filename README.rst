@@ -1,5 +1,18 @@
 .. image:: artwork/stupeflask.png
-    :target: https://youtu.be/PdaAHMztNVE
+   :target: https://youtu.be/PdaAHMztNVE
+
+|
+
+.. image:: https://img.shields.io/pypi/v/flask-stupe.svg
+   :target: https://pypi.python.org/pypi/Flask-Stupe
+.. image:: https://img.shields.io/github/license/numberly/flask-stupe.svg
+   :target: https://github.com/numberly/flask-stupe/blob/master/LICENSE
+.. image:: https://img.shields.io/travis/numberly/flask-stupe.svg
+   :target: https://travis-ci.org/numberly/flask-stupe
+.. image:: https://img.shields.io/coveralls/numberly/flask-stupe.svg
+   :target: https://coveralls.io/github/numberly/flask-stupe
+
+|
 
 *a.k.a. « Flask on steroids »*
 
