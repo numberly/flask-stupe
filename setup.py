@@ -9,8 +9,8 @@ def get_description():
 setup(
     name='Flask-Stupe',
     version='0.1',
-    url='',
-    license='',
+    url='https://github.com/numberly/flask-stupe',
+    license='MIT',
     author='Guillaume Gelin',
     author_email='ramnes@1000mercis.com',
     description='Flask application bootstrapping',
