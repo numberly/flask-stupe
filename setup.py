@@ -13,7 +13,7 @@ setup(
     license='MIT',
     author='Guillaume Gelin',
     author_email='ramnes@1000mercis.com',
-    description='Flask application bootstrapping',
+    description='a.k.a. « Flask on steroids »',
     long_description=get_description(),
     py_modules=['flask_stupe'],
     include_package_data=True,
