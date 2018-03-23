@@ -1,4 +1,4 @@
-.. image:: artwork/stupeflask.png
+.. image:: https://raw.githubusercontent.com/numberly/flask-stupe/master/artwork/stupeflask.png
    :target: https://youtu.be/PdaAHMztNVE
 
 |
