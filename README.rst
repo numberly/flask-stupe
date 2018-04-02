@@ -11,6 +11,8 @@
    :target: https://travis-ci.org/numberly/flask-stupe
 .. image:: https://img.shields.io/coveralls/numberly/flask-stupe.svg
    :target: https://coveralls.io/github/numberly/flask-stupe
+.. image:: https://readthedocs.org/projects/flask-stupe/badge
+   :target: http://flask-stupe.readthedocs.io
 
 |
 
@@ -18,6 +20,8 @@
 
 An opinionated Flask extension designed by and for web developers to reduce
 boilerplate code when working with Marshmallow, MongoDB and/or JSON.
+
+Documentation: https://flask-stupe.readthedocs.io
 
 
 Features
