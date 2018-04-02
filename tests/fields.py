@@ -3,7 +3,7 @@ import pytest
 
 from flask_stupe.fields import (Cron, Color, Currency, OneOf, ObjectId, IP,
                                 IPv4, IPv6)
-from flask_stupe.validation import Schema
+from marshmallow import Schema
 from marshmallow.fields import Integer, String
 
 

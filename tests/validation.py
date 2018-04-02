@@ -1,7 +1,8 @@
 import json
 
 from flask import request
-from flask_stupe.validation import Schema, schema_required
+from flask_stupe.validation import schema_required
+from marshmallow import Schema
 from marshmallow.fields import Integer
 
 

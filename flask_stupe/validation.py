@@ -11,11 +11,6 @@ except ImportError:  # pragma: no cover
 
 
 if marshmallow:
-    class Schema(marshmallow.Schema):
-
-        def __init__(self, *args, **kwargs):
-            super(Schema, self).__init__(*args, **kwargs)
-
     def schema_required(schema):
         """Validate body of the request against the schema.
 
@@ -32,4 +27,4 @@ if marshmallow:
             return __inner
         return __inner
 
-    __all__.extend(["Schema", "schema_required"])
+    __all__.extend(["schema_required"])
