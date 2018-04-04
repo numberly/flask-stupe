@@ -22,7 +22,9 @@ class Config(FlaskConfig):
         variable, replace the current value with the environment one, casting
         it in the appropriate type.
         """
-        env_config = {}
+        env_config = {
+            JSONIFY_PRETTYPRINT_REGULAR: False
+        }
         for key, value in self.items():
             if key in os.environ:
                 cast = type(value)
