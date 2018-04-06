@@ -5,6 +5,12 @@ except ImportError:  # pragma: no cover
     bson = False
 
 try:
+    import dateutil
+    import dateutil.parser
+except ImportError:  # pragma: no cover
+    dateutil = False
+
+try:
     import marshmallow
 except ImportError:  # pragma: no cover
     marshmallow = False

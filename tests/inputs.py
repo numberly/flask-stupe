@@ -1,7 +1,9 @@
+from datetime import datetime as dt
+
 import pytest
 from bson import ObjectId
 
-from flask_stupe.inputs import boolean, objectid_list, str_list
+from flask_stupe.inputs import boolean, date, datetime, objectid_list, str_list
 
 
 def test_boolean():
@@ -38,3 +40,13 @@ def test_objectid_list():
 
     objectids_string = ','.join(str(o) for o in objectids)
     assert objectid_list(objectids_string) == objectids
+
+
+def test_datetime():
+    now = dt.now()
+    assert datetime(str(now)) == now
+
+
+def test_date():
+    now = dt.now().date()
+    assert date(str(now)) == now

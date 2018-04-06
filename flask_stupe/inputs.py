@@ -1,4 +1,4 @@
-from flask_stupe import bson
+from flask_stupe import bson, dateutil
 
 
 def boolean(value):
@@ -41,3 +41,15 @@ if bson:
         return [bson.ObjectId(element) for element in str_list(value)]
 
     __all__.append("objectid_list")
+
+
+if dateutil:
+    def datetime(value):
+        """Convert a string to a datetime"""
+        return dateutil.parser.parse(value)
+
+    def date(value):
+        """Convert as string to a date"""
+        return datetime(value).date()
+
+    __all__.extend(["datetime", "date"])

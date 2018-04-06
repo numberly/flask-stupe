@@ -1,5 +1,6 @@
 flask
 pymongo
+python-dateutil
 marshmallow
 
 pytest==3.5.0
