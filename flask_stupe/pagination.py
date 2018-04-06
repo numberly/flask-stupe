@@ -2,10 +2,7 @@ import functools
 
 from flask import request
 
-try:
-    import pymongo
-except ImportError:  # pragma: no cover
-    pymongo = False
+from flask_stupe import pymongo
 
 __all__ = []
 

@@ -1,7 +1,4 @@
-try:
-    from bson import ObjectId
-except ImportError:  # pragma: no cover
-    ObjectId = False
+from flask_stupe import bson
 
 
 def boolean(value):
@@ -38,9 +35,9 @@ def str_list(value):
 __all__ = ["boolean", "str_list"]
 
 
-if ObjectId:
+if bson:
     def objectid_list(value):
         """Separate a string in multiple ObjectIds separated by comma."""
-        return [ObjectId(element) for element in str_list(value)]
+        return [bson.ObjectId(element) for element in str_list(value)]
 
     __all__.append("objectid_list")

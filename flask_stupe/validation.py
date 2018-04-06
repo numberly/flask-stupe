@@ -2,12 +2,9 @@ import functools
 
 from flask import abort, request
 
-__all__ = []
+from flask_stupe import marshmallow
 
-try:
-    import marshmallow
-except ImportError:  # pragma: no cover
-    marshmallow = False
+__all__ = []
 
 
 if marshmallow:

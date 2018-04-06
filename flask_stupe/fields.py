@@ -1,14 +1,9 @@
 import ipaddress
 import re
 
-from flask_stupe.validation import marshmallow
+from flask_stupe import bson, marshmallow
 
 __all__ = []
-
-try:
-    import bson
-except ImportError:  # pragma: no cover
-    bson = False
 
 
 if marshmallow:
