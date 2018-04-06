@@ -32,9 +32,9 @@ def test_str_list():
 
 
 def test_objectid_list():
-    assert (objectid_list("") == [])
-    assert (objectid_list("5a60ad5343e72318bc2fcb55") ==
-            [ObjectId("5a60ad5343e72318bc2fcb55")])
-    s = "5a60ad5343e72318bc2fcb55,5a815d07f950777affc7b4e2"
-    assert (objectid_list(s) == [ObjectId("5a60ad5343e72318bc2fcb55"),
-                                 ObjectId("5a815d07f950777affc7b4e2")])
+    objectids = [ObjectId() for i in range(5)]
+    assert objectid_list("") == []
+    assert objectid_list(str(objectids[0])) == [objectids[0]]
+
+    objectids_string = ','.join(str(o) for o in objectids)
+    assert objectid_list(objectids_string) == objectids
