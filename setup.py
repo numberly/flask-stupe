@@ -15,7 +15,7 @@ setup(
     author_email='ramnes@1000mercis.com',
     description='a.k.a. « Flask on steroids »',
     long_description=get_description(),
-    py_modules=['flask_stupe'],
+    packages=['flask_stupe'],
     include_package_data=True,
     zip_safe=False,
     platforms='any',
