@@ -43,7 +43,7 @@ Comparison
 
 Here is a comparison of a bare Flask application and its equivalent Stupeflask
 version. They both rely on MongoDB, handle input and output in JSON, and allow
-to create or retrieve an user.
+to create an user and retrieve one or more.
 
 +--------------------------------------------------------+-----------------------------------------------------+
 | **Bare Flask**                                         | **With Stupeflask**                                 |
