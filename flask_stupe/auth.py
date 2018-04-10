@@ -31,7 +31,7 @@ def auth_required(function):
 
 
 def permission_required(*permissions):
-    """Decorator checking that the request is made by an user with adequate
+    """Decorator checking that the request is made by a user with adequate
     privileges.
 
     This decorator also decorates the function with the :func:`auth_required`
