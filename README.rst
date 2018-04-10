@@ -90,12 +90,10 @@ to create or retrieve an user.
 |                                                        |                                                     |
 |  @app.route("/users")                                  |                                                     |
 |  def get_users():                                      |                                                     |
-|      users = users.find()                              |                                                     |
 |      limit = request.args.get("limit", 100, type=int)  |                                                     |
-|      users.limit(limit)                                |                                                     |
 |      skip = request.args.get("skip", 0, type=int)      |                                                     |
-|      users.skip(skip)                                  |                                                     |
-|      return jsonify(list(users))                       |                                                     |
+|      cursor = users.find().limit(limit).skip(skip)     |                                                     |
+|      return jsonify(list(cursor))                      |                                                     |
 +--------------------------------------------------------+-----------------------------------------------------+
 
 
