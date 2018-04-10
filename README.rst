@@ -92,11 +92,9 @@ to create or retrieve an user.
 |  def get_users():                                      |                                                     |
 |      users = users.find()                              |                                                     |
 |      limit = request.args.get("limit", 100, type=int)  |                                                     |
-|      if limit is not None:                             |                                                     |
-|          users.limit(limit)                            |                                                     |
+|      users.limit(limit)                                |                                                     |
 |      skip = request.args.get("skip", 0, type=int)      |                                                     |
-|      if skip is not None:                              |                                                     |
-|          users.skip(skip)                              |                                                     |
+|      users.skip(skip)                                  |                                                     |
 |      return jsonify(list(users))                       |                                                     |
 +--------------------------------------------------------+-----------------------------------------------------+
 
