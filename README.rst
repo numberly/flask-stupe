@@ -34,7 +34,7 @@ Features
 * Fetch all the blueprints from a whole module in one line
 * Native ObjectId support
 * Powerful configuration management
-* Decorators to handle authentication and permissions
+* Decorators to handle authentication, permissions, and pagination
 * 100% coverage and no dependency
 
 
