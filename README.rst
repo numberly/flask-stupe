@@ -51,7 +51,7 @@ to create or retrieve an user.
 |.. code-block:: python                                  |.. code-block:: python                               |
 |                                                        |                                                     |
 |  from bson import ObjectId                             |  from flask import request                          |
-|  from flask import abort, Flask, jsonify, request      |  from flask_stupe import schema_required            |
+|  from flask import abort, Flask, jsonify, request      |  from flask_stupe import paginate, schema_required  |
 |  from marshmallow import Schema                        |  from flask_stupe.json import Stupeflask            |
 |  from marshmallow.fields import String                 |  from marshmallow import Schema                     |
 |  from pymongo import MongoClient                       |  from marshmallow.fields import String              |
@@ -79,13 +79,25 @@ to create or retrieve an user.
 |                                                        |      return users.find_one({"_id": id})             |
 |  @app.route("/user/<id>")                              |                                                     |
 |  def get_user(id):                                     |                                                     |
-|      try:                                              |                                                     |
-|          id = ObjectId(id)                             |                                                     |
-|      except ValueError:                                |                                                     |
-|          abort(404)                                    |                                                     |
+|      try:                                              |  @app.route("/users")                               |
+|          id = ObjectId(id)                             |  @paginate(limit=100)                               |
+|      except ValueError:                                |  def get_users():                                   |
+|          abort(404)                                    |      return users.find()                            |
 |      user = users.find_one({"_id": id})                |                                                     |
 |      user["_id"] = str(user["_id"])                    |                                                     |
 |      return jsonify(user)                              |                                                     |
+|                                                        |                                                     |
+|                                                        |                                                     |
+|  @app.route("/users")                                  |                                                     |
+|  def get_users():                                      |                                                     |
+|      users = users.find()                              |                                                     |
+|      limit = request.args.get("limit", 100, type=int)  |                                                     |
+|      if limit is not None:                             |                                                     |
+|          users.limit(limit)                            |                                                     |
+|      skip = request.args.get("skip", 0, type=int)      |                                                     |
+|      if skip is not None:                              |                                                     |
+|          users.skip(skip)                              |                                                     |
+|      return jsonify(list(users))                       |                                                     |
 +--------------------------------------------------------+-----------------------------------------------------+
 
 
