@@ -32,6 +32,11 @@ def str_list(value):
     return value.split(",")
 
 
+def int_list(value):
+    """Convert a numeric comma separated string to an int list."""
+    return [int(str) for str in str_list(value)]
+
+
 __all__ = ["boolean", "str_list"]
 
 
