@@ -37,7 +37,7 @@ def int_list(value):
     return [int(str) for str in str_list(value)]
 
 
-__all__ = ["boolean", "str_list"]
+__all__ = ["boolean", "int_list", "str_list"]
 
 
 if bson:
