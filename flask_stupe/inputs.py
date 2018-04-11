@@ -26,7 +26,7 @@ def boolean(value):
 
 
 def str_list(value):
-    """Separate a string in multiple elements separated by comma."""
+    """Convert a literal comma separated string to a string list."""
     if not value:
         return []
     return value.split(",")
@@ -42,7 +42,7 @@ __all__ = ["boolean", "str_list"]
 
 if bson:
     def objectid_list(value):
-        """Separate a string in multiple ObjectIds separated by comma."""
+        """Convert a hexadecimal comma separated string to an ObjectId list."""
         return [bson.ObjectId(element) for element in str_list(value)]
 
     __all__.append("objectid_list")
