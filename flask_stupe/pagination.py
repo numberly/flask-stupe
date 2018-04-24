@@ -9,8 +9,9 @@ __all__ = []
 
 if pymongo:
     def _paginate(cursor, skip=None, limit=None, sort=None, count=True):
-        if count:
-            request.metadata.update(count=cursor.count())
+        metadata = getattr(request, "metadata", None)
+        if count and isinstance(metadata, dict):
+            metadata.update(count=cursor.count())
 
         skip = request.args.get("skip", skip, type=int)
         if skip is not None:
