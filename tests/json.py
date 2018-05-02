@@ -3,10 +3,12 @@ import pytest
 from datetime import date, datetime
 from uuid import uuid4
 
+import flask
 from bson import ObjectId
 from flask_stupe.json import (encode, encoder_rules, handle_error, JSONEncoder,
                               Response, Stupeflask)
 from flask_stupe.pagination import paginate
+from pkg_resources import parse_version
 from werkzeug.exceptions import Forbidden, NotFound
 
 from tests.conftest import Cursor, response_to_dict
@@ -80,7 +82,12 @@ def test_handle_error(json_app):
         assert handle_error(Exception()).status_code == 500
         assert handle_error(NotFound()).status_code == 404
         assert handle_error(Forbidden()).status_code == 403
-        data = json.loads(handle_error(Forbidden()).response[0])
+
+        response = handle_error(Forbidden())
+        if parse_version(flask.__version__) >= parse_version("1.0"):
+            data = response.json
+        else:
+            data = json.loads(response.response[0])
 
     assert data.pop("message") == Forbidden.description
     assert data.pop("code") == 403
