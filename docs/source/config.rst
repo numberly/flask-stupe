@@ -19,7 +19,7 @@ a Python configuration file.
 Environment
 ===========
 
-Any key present in the documentation at this point will be checked in the
+Any key present in the configuration at this point will be checked in the
 environment. If a corresponding variable is found in the environment, its value
 will override the current configuration.
 
@@ -40,3 +40,6 @@ You can override it by putting that in the environment:
 
 In your code, it will not be treated a string or an integer, but as `True`,
 because Stupeflask will have detected that it was a boolean and cast it.
+
+If you want to invoke this behavior at another moment, use the
+:meth:`from_env method <flask_stupe.config.Config.from_env>`.
