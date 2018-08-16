@@ -12,6 +12,10 @@ if marshmallow:
         """Validate body of the request against the schema.
 
         Abort with a status code 400 if the schema yields errors."""
+
+        if isinstance(schema, type):
+            schema = schema()
+
         def __inner(f):
             @functools.wraps(f)
             def __inner(*args, **kwargs):
