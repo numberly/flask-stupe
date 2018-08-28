@@ -1,5 +1,5 @@
-import functools
 import fnmatch
+import functools
 
 from flask import abort, request
 

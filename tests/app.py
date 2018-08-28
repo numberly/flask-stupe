@@ -1,9 +1,10 @@
 import logging
-import pytest
 
-from flask_stupe.config import Config
-from flask_stupe.app import Stupeflask
+import pytest
 from werkzeug.routing import BaseConverter
+
+from flask_stupe.app import Stupeflask
+from flask_stupe.config import Config
 
 
 def test_app_config(app):
