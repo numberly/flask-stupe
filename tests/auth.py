@@ -1,4 +1,5 @@
 from flask import request
+
 from flask_stupe.auth import auth_required, permission_required
 
 

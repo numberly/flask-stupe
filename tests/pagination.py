@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask, request
-from flask_stupe import Stupeflask, paginate
 
+from flask_stupe import Stupeflask, paginate
 from tests.conftest import Cursor
 
 

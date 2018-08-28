@@ -1,10 +1,10 @@
 import bson
 import pytest
-
-from flask_stupe.fields import (Cron, Color, Currency, OneOf, ObjectId, IP,
-                                IPv4, IPv6)
 from marshmallow import Schema
 from marshmallow.fields import Integer, String
+
+from flask_stupe.fields import (IP, Color, Cron, Currency, IPv4, IPv6,
+                                ObjectId, OneOf)
 
 
 def test_ip():

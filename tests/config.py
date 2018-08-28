@@ -1,6 +1,6 @@
 import os
 
-from flask_stupe.config import _str2bool, _str2list, Config
+from flask_stupe.config import Config, _str2bool, _str2list
 
 
 def test_str2bool():

@@ -1,16 +1,16 @@
 import json
-import pytest
 from datetime import date, datetime
 from uuid import uuid4
 
 import flask
+import pytest
 from bson import ObjectId
-from flask_stupe.json import (encode, encoder_rules, handle_error, JSONEncoder,
-                              Response, Stupeflask)
-from flask_stupe.pagination import paginate
 from pkg_resources import parse_version
 from werkzeug.exceptions import Forbidden, NotFound
 
+from flask_stupe.json import (JSONEncoder, Response, Stupeflask, encode,
+                              encoder_rules, handle_error)
+from flask_stupe.pagination import paginate
 from tests.conftest import Cursor, response_to_dict
 
 original_rules = encoder_rules[:]
