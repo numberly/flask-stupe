@@ -8,6 +8,7 @@ class Request(FlaskRequest):
 
         #: Store additionnal data about the request.
         self.metadata = {}
+        self.response_headers = {}
 
 
 __all__ = ["Request"]

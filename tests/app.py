@@ -5,6 +5,8 @@ from werkzeug.routing import BaseConverter
 
 from flask_stupe.app import Stupeflask
 from flask_stupe.config import Config
+from flask_stupe.pagination import paginate
+from tests.conftest import Cursor
 
 
 def test_app_config(app):
@@ -53,3 +55,18 @@ def test_register_blueprints(test_apps, caplog, app):
 @pytest.fixture
 def app():
     return Stupeflask(__name__)
+
+
+def test_stupeflask_response_with_paginate_headers(app, client):
+
+    @app.route("/")
+    def foo():
+        cursor = Cursor([1, 2, 3])
+        cursor = paginate(cursor, limit=1, skip=0)
+        return (lambda c: c.data)(cursor)
+
+    response = client.get("/")
+    assert response.status_code == 200
+
+    assert "X-Total-Count" in response.headers
+    assert "Link" in response.headers

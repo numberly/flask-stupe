@@ -1,4 +1,5 @@
 import functools
+from collections import OrderedDict
 
 from flask import request
 
@@ -8,10 +9,47 @@ __all__ = []
 
 
 if pymongo:
+
+    def _get_pagination_links(skip, limit, total_count=None):
+        template = "{}?limit={}&skip={{skip}}".format(request.base_url, limit)
+        links = OrderedDict([
+            ("self", template.format(skip=skip)),
+            ("first", template.format(skip=0))
+        ])
+        prev_skip = skip - limit
+        if prev_skip >= 0:
+            links.update(prev=template.format(skip=prev_skip))
+        next_skip = skip + limit
+        if next_skip < total_count:
+            links.update(next=template.format(skip=next_skip))
+        if total_count:
+            links.update(last=template.format(skip=total_count - limit))
+        return links
+
     def _paginate(cursor, skip=None, limit=None, sort=None, count=True):
+        total_count = None
+        if count:
+            total_count = cursor.count()
+        links = None
+        if limit:
+            links = _get_pagination_links(skip or 0, limit, total_count)
+
+        headers = getattr(request, "response_headers", None)
+        if isinstance(headers, dict):
+            if total_count:
+                headers["X-Total-Count"] = total_count
+            if links:
+                header_links = []
+                for name, link in links.items():
+                    header_links.append('<{}>; rel="{}"'.format(link, name))
+                headers["Link"] = ", ".join(header_links)
+
         metadata = getattr(request, "metadata", None)
-        if count and isinstance(metadata, dict):
-            metadata.update(count=cursor.count())
+        if isinstance(metadata, dict):
+            if total_count:
+                metadata.update(count=total_count)
+            if links:
+                metadata.update(links=links)
 
         skip = request.args.get("skip", skip, type=int)
         if skip is not None:

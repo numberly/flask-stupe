@@ -124,6 +124,7 @@ class Stupeflask(BaseStupeflask):
 
         rv = jsonify(rv)
         rv.status_code = code
+
         return rv
 
     def __init__(self, *args, **kwargs):
