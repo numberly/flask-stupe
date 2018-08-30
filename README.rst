@@ -67,7 +67,7 @@ to create a user and retrieve one or more.
 |                                                        |                                                     |
 |  @app.route("/user", methods=["POST"])                 |                                                     |
 |  def post_user():                                      |  @app.route("/user", methods=["POST"])              |
-|      json = request.get_json(force=True)               |  @schema_required(UserSchema)                       |
+|      json = request.get_json(force=True)               |  @schema_required(UserSchema())                     |
 |      validation_result = UserSchema().load(json)       |  def post_user():                                   |
 |      if validation_result.errors:                      |      result = users.insert_one(request.schema)      |
 |          abort(400, validation_result.errors)          |      request.schema.update(_id=result.inserted_id)  |

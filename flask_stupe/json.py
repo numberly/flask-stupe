@@ -1,13 +1,13 @@
 from datetime import date, datetime
 
-from flask import jsonify, request
 from flask import Response as FlaskResponse
+from flask import jsonify, request
 from flask.json import JSONEncoder as FlaskJSONEncoder
-from werkzeug.exceptions import (default_exceptions, HTTPException,
-                                 InternalServerError)
+from werkzeug.exceptions import (HTTPException, InternalServerError,
+                                 default_exceptions)
 
-from flask_stupe.app import Stupeflask as BaseStupeflask
 from flask_stupe import bson
+from flask_stupe.app import Stupeflask as BaseStupeflask
 
 encoder_rules = [
     ((date, datetime), lambda d: d.isoformat()),
