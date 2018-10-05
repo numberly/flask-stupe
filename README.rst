@@ -32,7 +32,7 @@ Features
 * Validate payloads through marshmallow_ schemas
 * Easily add JSON converters for any custom type
 * Fetch all the blueprints from a whole module in one line
-* Native ObjectId support
+* Native ObjectId support for both Flask and Marshmallow
 * Powerful configuration management
 * Decorators to handle authentication, permissions, and pagination
 * 100% coverage and no dependency
