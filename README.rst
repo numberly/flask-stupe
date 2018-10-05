@@ -18,8 +18,8 @@
 
 *a.k.a. « Flask on steroids »*
 
-An opinionated Flask extension designed by and for web developers to reduce
-boilerplate code when working with Marshmallow, MongoDB and/or JSON.
+An opinionated Flask_ extension designed by and for web developers to reduce
+boilerplate code when working with Marshmallow_, MongoDB_ and/or JSON.
 
 Documentation: https://flask-stupe.readthedocs.io
 
@@ -29,10 +29,10 @@ Features
 
 * Return any object type in views, and it will be coerced to a
   :code:`flask.Response`
-* Validate payloads through marshmallow_ schemas
+* Validate payloads through Marshmallow_ schemas
 * Easily add JSON converters for any custom type
 * Fetch all the blueprints from a whole module in one line
-* Native ObjectId support for both Flask and Marshmallow
+* Native ObjectId support for both Flask_ and Marshmallow_
 * Powerful configuration management
 * Decorators to handle authentication, permissions, and pagination
 * 100% coverage and no dependency
@@ -41,8 +41,8 @@ Features
 Comparison
 ==========
 
-Here is a comparison of a bare Flask application and its equivalent Stupeflask
-version. They both rely on MongoDB, handle input and output in JSON, and allow
+Here is a comparison of a bare Flask_ application and its equivalent Stupeflask
+version. They both rely on MongoDB_, handle input and output in JSON, and allow
 to create a user and retrieve one or more.
 
 +--------------------------------------------------------+-----------------------------------------------------+
@@ -97,5 +97,6 @@ to create a user and retrieve one or more.
 +--------------------------------------------------------+-----------------------------------------------------+
 
 
-.. _marshmallow: https://marshmallow.readthedocs.io/en/latest/
+.. _Flask: http://flask.pocoo.org/
+.. _Marshmallow: https://marshmallow.readthedocs.io/en/latest/
 .. _MongoDB: https://www.mongodb.com/
