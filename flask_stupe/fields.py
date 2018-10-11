@@ -168,7 +168,7 @@ if bson and marshmallow:
                 return bson.ObjectId(value)
             except TypeError:
                 self.fail("type")
-            except bson.errors.InvalidId:
+            except bson.objectid.InvalidId:
                 self.fail("invalid")
 
     __all__.append("ObjectId")
