@@ -28,6 +28,7 @@ nosetests.xml
 pytestdebug.log
 .cache/
 htmlcov/
+.pytest_cache/
 
 # Translations
 *.mo
