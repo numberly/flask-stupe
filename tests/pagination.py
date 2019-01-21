@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask, request
 
-from flask_stupe import Stupeflask, paginate
+from flask_stupe import Collation, Stupeflask, paginate
 from tests.conftest import Cursor
 
 
@@ -55,6 +55,23 @@ def test_paginate_sort(app):
                            {"foo": 1}, {"foo": 3}, {"foo": 2}])
         assert foobar().data == [{"bar": 3}, {"bar": 2}, {"bar": 1},
                                  {"foo": 1}, {"foo": 2}, {"foo": 3}]
+
+
+@pytest.mark.parametrize("app", [
+    Stupeflask(__name__),
+    Flask(__name__)
+])
+def test_paginate_collation(app):
+    with app.test_request_context():
+        @paginate(sort=["foo"], collation="en")
+        def paginate_1():
+            return Cursor([{"foo": "Ber"}, {"foo": "foo"}, {"foo": "bar"}])
+        if not Collation:
+            expected_result = [{"foo": "Ber"}, {"foo": "bar"}, {"foo": "foo"}]
+            assert paginate_1().data == expected_result
+        if Collation:
+            expected_result = [{"foo": "bar"}, {"foo": "Ber"}, {"foo": "foo"}]
+            assert paginate_1() == expected_result
 
 
 @pytest.mark.parametrize("app", [

@@ -2,13 +2,14 @@ import functools
 
 from flask import request
 
-from flask_stupe import pymongo
+from flask_stupe import Collation, pymongo
 
 __all__ = []
 
 
 if pymongo:
-    def _paginate(cursor, skip=None, limit=None, sort=None, count=True):
+    def _paginate(cursor, skip=None, limit=None, sort=None, count=True,
+                  collation=None):
         metadata = getattr(request, "metadata", None)
         if count and isinstance(metadata, dict):
             metadata.update(count=cursor.count())
@@ -32,19 +33,24 @@ if pymongo:
                 if not isinstance(item, tuple):
                     sort[index] = (item, pymongo.ASCENDING)
             cursor.sort(sort)
+            if collation and Collation:
+                if not isinstance(collation, Collation):
+                    collation = Collation(locale=collation)
+                cursor = cursor.collation(collation)
         return cursor
 
     def paginate(function_or_cursor=None, skip=None, limit=None, sort=None,
-                 count=True):
+                 count=True, collation=False):
         """Apply pagination to the given MongoDB cursor or function"""
         if isinstance(function_or_cursor, pymongo.cursor.Cursor):
-            return _paginate(function_or_cursor, skip, limit, sort, count)
+            return _paginate(function_or_cursor, skip, limit, sort, count,
+                             collation)
 
         def __decorator(function):
             @functools.wraps(function)
             def __wrapper(*args, **kwargs):
                 cursor = function(*args, **kwargs)
-                return _paginate(cursor, skip, limit, sort, count)
+                return _paginate(cursor, skip, limit, sort, count, collation)
             return __wrapper
 
         if function_or_cursor:

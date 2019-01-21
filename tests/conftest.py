@@ -47,11 +47,22 @@ class Cursor(pymongo.cursor.Cursor):
         return self.data
 
     def sort(self, sort):
+        self.sort_data = sort
         for sort_key, order in reversed(sort):
-            self.data = sorted(self.data, key=lambda d: d.get(sort_key, 0))
+
+            def get_key(d):
+                if hasattr(self, "collation_data"):
+                    return d.get(sort_key, 0).lower()
+                return d.get(sort_key, 0)
+
+            self.data = sorted(self.data, key=get_key)
             if order == -1:
                 self.data.reverse()
         return self.data
+
+    def collation(self, collation):
+        self.collation_data = collation
+        return self.sort(self.sort_data)
 
     def count(self):
         return len(self.data)
