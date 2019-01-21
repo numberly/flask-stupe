@@ -20,6 +20,11 @@ try:
 except ImportError:  # pragma: no cover
     pymongo = False
 
+try:
+    from pymongo.collation import Collation
+except ImportError:  # pragma: no cover
+    Collation = False
+
 from flask_stupe.app import Stupeflask
 from flask_stupe.validation import *
 from flask_stupe.pagination import *
