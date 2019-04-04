@@ -94,7 +94,7 @@ def test_cron(app):
 
     schema = TestSchema()
     result = schema.load({"schedule": "* * 4 * *"})
-    assert result.data["schedule"] is "* * 4 * *"
+    assert result.data["schedule"] == "* * 4 * *"
 
     result = schema.load({"schedule": "* * 1 * * *"})
     assert result.errors["schedule"] == ["Not a valid cron expression."]
