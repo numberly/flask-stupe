@@ -3,7 +3,9 @@ pymongo
 python-dateutil
 marshmallow
 
-pytest==3.5.0
+flake8
+flake8-isort
+pytest
 pytest-cov
 setuptools
 
