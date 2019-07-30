@@ -38,6 +38,14 @@ Features
 * 100% coverage and no dependency
 
 
+Install
+=======
+
+.. code-block:: sh
+
+   $ pip install flask-stupe
+
+
 Comparison
 ==========
 
@@ -95,6 +103,21 @@ to create a user and retrieve one or more.
 |      cursor = users.find().limit(limit).skip(skip)     |                                                     |
 |      return jsonify(list(cursor))                      |                                                     |
 +--------------------------------------------------------+-----------------------------------------------------+
+
+
+Tests
+=====
+
+To run Flask-Stupe tests:
+
+* install developers requirements with ``pip install -r requirements.txt``;
+* run ``pytest``.
+
+
+License
+=======
+
+MIT
 
 
 .. _Flask: http://flask.pocoo.org/
