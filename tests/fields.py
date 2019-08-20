@@ -1,6 +1,6 @@
 import bson
 import pytest
-from marshmallow import Schema
+from marshmallow import Schema, ValidationError
 from marshmallow.fields import Integer, String
 
 from flask_stupe.fields import (IP, Color, Cron, Currency, IPv4, IPv6,
@@ -13,25 +13,28 @@ def test_ip():
 
     schema = TestSchema()
     result = schema.load({"IP": "127.0.0.1"})
-    assert result.data["IP"] == "127.0.0.1"
+    assert result["IP"] == "127.0.0.1"
 
-    result = schema.load({"IP": "127.0.0"})
-    assert result.errors["IP"] == ["Not a valid IPv4 or IPv6 address."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"IP": "127.0.0"})
+    assert error.value.messages["IP"] == ["Not a valid IPv4 or IPv6 address."]
 
-    result = schema.load({"IP": "256.256.256.256"})
-    assert result.errors["IP"] == ["Not a valid IPv4 or IPv6 address."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"IP": "256.256.256.256"})
+    assert error.value.messages["IP"] == ["Not a valid IPv4 or IPv6 address."]
 
     result = schema.load({"IP": "2001:0db8:0000:0000:0000:ff00:0042:8329"})
-    assert result.data["IP"] == "2001:0db8:0000:0000:0000:ff00:0042:8329"
+    assert result["IP"] == "2001:0db8:0000:0000:0000:ff00:0042:8329"
 
     result = schema.load({"IP": "2001:db8:0:0:0:ff00:42:8329"})
-    assert result.data["IP"] == "2001:db8:0:0:0:ff00:42:8329"
+    assert result["IP"] == "2001:db8:0:0:0:ff00:42:8329"
 
     result = schema.load({"IP": "2001:db8::ff00:42:8329"})
-    assert result.data["IP"] == "2001:db8::ff00:42:8329"
+    assert result["IP"] == "2001:db8::ff00:42:8329"
 
-    result = schema.load({"IP": "2001:gb8::ff00:42:8329"})
-    assert result.errors["IP"] == ["Not a valid IPv4 or IPv6 address."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"IP": "2001:gb8::ff00:42:8329"})
+    assert error.value.messages["IP"] == ["Not a valid IPv4 or IPv6 address."]
 
 
 def test_ipv4():
@@ -40,16 +43,19 @@ def test_ipv4():
 
     schema = TestSchema()
     result = schema.load({"IP": "127.0.0.1"})
-    assert result.data["IP"] == "127.0.0.1"
+    result["IP"] == "127.0.0.1"
 
-    result = schema.load({"IP": "127.0.0"})
-    assert result.errors["IP"] == ["Not a valid IPv4 address."]
+    with pytest.raises(ValidationError) as error:
+        result = schema.load({"IP": "127.0.0"})
+    assert error.value.messages["IP"] == ["Not a valid IPv4 address."]
 
-    result = schema.load({"IP": "256.256.256.256"})
-    assert result.errors["IP"] == ["Not a valid IPv4 address."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"IP": "256.256.256.256"})
+    assert error.value.messages["IP"] == ["Not a valid IPv4 address."]
 
-    result = schema.load({"IP": "2001:db8::ff00:42:8329"})
-    assert result.errors["IP"] == ["Not a valid IPv4 address."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"IP": "2001:db8::ff00:42:8329"})
+    assert error.value.messages["IP"] == ["Not a valid IPv4 address."]
 
 
 def test_ipv6():
@@ -58,19 +64,21 @@ def test_ipv6():
 
     schema = TestSchema()
     result = schema.load({"IP": "2001:0db8:0000:0000:0000:ff00:0042:8329"})
-    assert result.data["IP"] == "2001:0db8:0000:0000:0000:ff00:0042:8329"
+    assert result["IP"] == "2001:0db8:0000:0000:0000:ff00:0042:8329"
 
     result = schema.load({"IP": "2001:db8:0:0:0:ff00:42:8329"})
-    assert result.data["IP"] == "2001:db8:0:0:0:ff00:42:8329"
+    assert result["IP"] == "2001:db8:0:0:0:ff00:42:8329"
 
     result = schema.load({"IP": "2001:db8::ff00:42:8329"})
-    assert result.data["IP"] == "2001:db8::ff00:42:8329"
+    assert result["IP"] == "2001:db8::ff00:42:8329"
 
-    result = schema.load({"IP": "2001:gb8::ff00:42:8329"})
-    assert result.errors["IP"] == ["Not a valid IPv6 address."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"IP": "2001:gb8::ff00:42:8329"})
+    assert error.value.messages["IP"] == ["Not a valid IPv6 address."]
 
-    result = schema.load({"IP": "255.255.255.255"})
-    assert result.errors["IP"] == ["Not a valid IPv6 address."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"IP": "255.255.255.255"})
+    assert error.value.messages["IP"] == ["Not a valid IPv6 address."]
 
 
 def test_color():
@@ -79,13 +87,15 @@ def test_color():
 
     schema = TestSchema()
     result = schema.load({"color": "#ec068d"})
-    assert result.data["color"] == "#ec068d"
+    assert result["color"] == "#ec068d"
 
-    result = schema.load({"color": "test"})
-    assert result.errors["color"] == ["Not a valid color."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"color": "test"})
+    assert error.value.messages["color"] == ["Not a valid color."]
 
-    result = schema.load({"color": ["test", "test"]})
-    assert result.errors["color"] == ["Invalid input type."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"color": ["test", "test"]})
+    assert error.value.messages["color"] == ["Invalid type."]
 
 
 def test_cron(app):
@@ -94,16 +104,20 @@ def test_cron(app):
 
     schema = TestSchema()
     result = schema.load({"schedule": "* * 4 * *"})
-    assert result.data["schedule"] == "* * 4 * *"
+    assert result["schedule"] == "* * 4 * *"
 
-    result = schema.load({"schedule": "* * 1 * * *"})
-    assert result.errors["schedule"] == ["Not a valid cron expression."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"schedule": "* * 1 * * *"})
+    assert error.value.messages["schedule"] == ["Not a valid cron expression."]
 
-    result = schema.load({"schedule": "60 * * * *"})
-    assert result.errors["schedule"] == ["The minutes field is invalid."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"schedule": "60 * * * *"})
+    assert error.value.messages["schedule"] == ["The minutes field is "
+                                                "invalid."]
 
-    result = schema.load({"schedule": "a * * * *"})
-    assert result.errors["schedule"] == ["Not a valid cron expression."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"schedule": "a * * * *"})
+    assert error.value.messages["schedule"] == ["Not a valid cron expression."]
 
 
 def test_currency():
@@ -112,13 +126,15 @@ def test_currency():
 
     schema = TestSchema()
     result = schema.load({"currency": "EUR"})
-    assert result.data["currency"] == "EUR"
+    assert result["currency"] == "EUR"
 
-    result = schema.load({"currency": "1MD"})
-    assert result.errors["currency"] == ["Not a valid currency."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"currency": "1MD"})
+    assert error.value.messages["currency"] == ["Not a valid currency."]
 
-    result = schema.load({"currency": ["ILS", "EUR"]})
-    assert result.errors["currency"] == ["Invalid input type."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"currency": ["ILS", "EUR"]})
+    assert error.value.messages["currency"] == ["Invalid type."]
 
 
 def test_oneof(app):
@@ -127,14 +143,15 @@ def test_oneof(app):
 
     schema = TestSchema()
     result = schema.load({"value_type": 42})
-    assert result.data["value_type"] == 42
+    assert result["value_type"] == 42
 
     result = schema.load({"value_type": "test"})
-    assert result.data["value_type"] == "test"
+    assert result["value_type"] == "test"
 
-    result = schema.load({"value_type": ["42", 42]})
-    assert result.errors["value_type"] == [("Object type doesn't match any "
-                                            "valid type")]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"value_type": ["42", 42]})
+    assert error.value.messages["value_type"] == [("Object type doesn't match "
+                                                   "any valid type")]
 
     with pytest.raises(ValueError) as error:
         class TestSchema2(Schema):
@@ -161,7 +178,7 @@ def test_oneof(app):
 
     schema = TestSchema6()
     result = schema.load({"value_type": 42})
-    assert result.data["value_type"] == 42
+    assert result["value_type"] == 42
 
 
 def test_object_id():
@@ -172,10 +189,12 @@ def test_object_id():
 
     schema = TestSchema()
     result = schema.load({"id": test_id})
-    assert result.data["id"] == test_id
+    assert result["id"] == test_id
 
-    result = schema.load({"id": "fail"})
-    assert result.errors["id"] == ["Not a valid ObjectId."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"id": "fail"})
+    assert error.value.messages["id"] == ["Not a valid ObjectId."]
 
-    result = schema.load({"id": 42})
-    assert result.errors["id"] == ["Invalid input type."]
+    with pytest.raises(ValidationError) as error:
+        schema.load({"id": 42})
+    assert error.value.messages["id"] == ["Invalid type."]

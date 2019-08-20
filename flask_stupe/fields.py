@@ -11,16 +11,17 @@ if marshmallow:
 
     class Color(marshmallow.fields.String):
         default_error_messages = {
+            "type": "Invalid type.",
             "invalid": "Not a valid color."
         }
 
-        def _deserialize(self, value, attr, data):
+        def _deserialize(self, value, attr, data, **kwargs):
             try:
                 value = value.lower()
             except AttributeError:
-                self.fail("type")
+                raise self.make_error("type")
             if not hexcolor_re.match(value):
-                self.fail("invalid")
+                raise self.make_error("invalid")
             return value
 
     class Cron(marshmallow.fields.String):
@@ -35,19 +36,19 @@ if marshmallow:
         limits = (("minute", 59), ("hour", 23), ("dom", 31), ("month", 12),
                   ("dow", 7))
 
-        def _deserialize(self, value, attr, data):
+        def _deserialize(self, value, attr, data, **kwargs):
             fields = value.split()
             if len(fields) != 5:
-                self.fail("invalid")
+                raise self.make_error("invalid")
             for field, (name, limit) in zip(fields, self.limits):
                 try:
                     if field != "*":
                         if int(field) > limit or int(field) < 0:
                             raise Exception
                 except ValueError:
-                    self.fail("invalid")
+                    raise self.make_error("invalid")
                 except Exception:
-                    self.fail(name)
+                    raise self.make_error(name)
             return value
 
     currencies = ("ADF", "ADP", "AED", "AFA", "AFN", "ALL", "AMD", "ANG",
@@ -83,16 +84,17 @@ if marshmallow:
 
     class Currency(marshmallow.fields.String):
         default_error_messages = {
+            "type": "Invalid type.",
             "invalid": "Not a valid currency."
         }
 
-        def _deserialize(self, value, attr, data):
+        def _deserialize(self, value, attr, data, **kwargs):
             try:
                 value = value.upper()
             except AttributeError:
-                self.fail("type")
+                raise self.make_error("type")
             if value not in currencies:
-                self.fail("invalid")
+                raise self.make_error("invalid")
             return value
 
     class IP(marshmallow.fields.String):
@@ -101,11 +103,11 @@ if marshmallow:
         }
         ip_type = staticmethod(ipaddress.ip_address)
 
-        def _deserialize(self, value, attr, data):
+        def _deserialize(self, value, attr, data, **kwargs):
             try:
                 self.ip_type(value)
             except ValueError:
-                self.fail("invalid")
+                raise self.make_error("invalid")
             return value
 
     class IPv4(IP):
@@ -152,7 +154,7 @@ if marshmallow:
                     return field._deserialize(value, *args, **kwargs)
                 except marshmallow.exceptions.ValidationError:
                     pass
-            self.fail("invalid")
+            raise self.make_error("invalid")
 
     __all__.extend(["Color", "Currency", "IP", "IPv4", "IPv6", "OneOf"])
 
@@ -160,15 +162,16 @@ if marshmallow:
 if bson and marshmallow:
     class ObjectId(marshmallow.fields.String):
         default_error_messages = {
+            "type": "Invalid type.",
             "invalid": "Not a valid ObjectId."
         }
 
-        def _deserialize(self, value, attr, data):
+        def _deserialize(self, value, attr, data, **kwargs):
             try:
                 return bson.ObjectId(value)
             except TypeError:
-                self.fail("type")
+                raise self.make_error("type")
             except bson.objectid.InvalidId:
-                self.fail("invalid")
+                raise self.make_error("invalid")
 
     __all__.append("ObjectId")

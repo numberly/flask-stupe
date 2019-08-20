@@ -8,19 +8,11 @@ __all__ = []
 
 
 if marshmallow:
-    if marshmallow.__version__.startswith('3'):  # pragma: no cover
-        def _load_schema(schema, json):
-            try:
-                return schema.load(json)
-            except marshmallow.exceptions.ValidationError as e:
-                abort(400, e.messages)
-
-    else:
-        def _load_schema(schema, json):
-            results = schema.load(json)
-            if results.errors:
-                abort(400, results.errors)
-            return results.data
+    def _load_schema(schema, json):
+        try:
+            return schema.load(json)
+        except marshmallow.exceptions.ValidationError as e:
+            abort(400, e.messages)
 
     def schema_required(schema):
         """Validate body of the request against the schema.
