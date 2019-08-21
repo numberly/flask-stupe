@@ -9,7 +9,7 @@ def get_description():
 
 setup(
     name='Flask-Stupe',
-    version='3.7.1',
+    version='4.0.0',
     url='https://github.com/numberly/flask-stupe',
     license='MIT',
     author='Guillaume Gelin',
