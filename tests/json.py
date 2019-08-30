@@ -93,6 +93,16 @@ def test_handle_error(json_app):
     assert data.pop("code") == 403
     assert not data
 
+def test_handle_error_without_metadata(json_app):
+    json_app.config["METADATA_WRAPPING"] = False
+    with json_app.test_request_context():
+        assert handle_error(Exception()).status_code == 500
+        assert handle_error(NotFound()).status_code == 404
+        assert handle_error(Forbidden()).status_code == 403
+
+        response = handle_error(Forbidden())
+        assert not response.response
+
 
 def test_stupeflask_response_content_type(json_app, client):
     json_app.route("/")(lambda: None)
@@ -110,6 +120,14 @@ def test_stupeflask_empty_response(json_app, client):
     assert response_dict["code"] == 200
 
 
+def test_stupeflask_empty_response_without_metadata(json_app, client):
+    json_app.config["METADATA_WRAPPING"] = False
+    json_app.route("/")(lambda: None)
+    response = client.get("/")
+    assert response.status_code == 200
+    assert not response.get_data()
+
+
 def test_stupeflask_response_with_data(json_app, client):
     json_app.route("/")(lambda: "foo")
     response = client.get("/")
@@ -118,6 +136,14 @@ def test_stupeflask_response_with_data(json_app, client):
     response_dict = response_to_dict(response)
     assert response_dict["data"] == "foo"
     assert response_dict["code"] == 200
+
+
+def test_stupeflask_response_with_data_without_metadata(json_app, client):
+    json_app.config["METADATA_WRAPPING"] = False
+    json_app.route("/")(lambda: "foo")
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.get_data().decode("utf-8") == "\"foo\"\n"
 
 
 def test_stupeflask_response_with_code(json_app, client):
@@ -150,7 +176,7 @@ def test_stupeflask_response_with_empty_list(json_app, client):
     assert response_dict["code"] == 200
 
 
-def test_stupeflask_response_with_metadata(json_app, client):
+def test_stupeflask_response_with_more_metadata(json_app, client):
     @json_app.route("/")
     def foo():
         from flask import request
