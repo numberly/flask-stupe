@@ -93,6 +93,7 @@ def test_handle_error(json_app):
     assert data.pop("code") == 403
     assert not data
 
+
 def test_handle_error_without_metadata(json_app):
     json_app.config["METADATA_WRAPPING"] = False
     with json_app.test_request_context():
