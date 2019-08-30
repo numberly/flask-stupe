@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
 from flask import Response as FlaskResponse
-from flask import jsonify, request
+from flask import current_app, jsonify, request
 from flask.json import JSONEncoder as FlaskJSONEncoder
 from werkzeug.exceptions import (HTTPException, InternalServerError,
                                  default_exceptions)
@@ -94,7 +94,10 @@ def handle_error(e):
     """
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-    response = jsonify(code=e.code, message=e.description)
+    if current_app.config["METADATA_WRAPPING"]:
+        response = jsonify(code=e.code, message=e.description)
+    else:
+        response = Response()
     response.status_code = e.code
     return response
 
@@ -116,18 +119,23 @@ class Stupeflask(BaseStupeflask):
         else:
             data = rv
 
-        rv = {"code": code}
-        if data is not None:
-            rv.update(data=data)
-        if request.metadata:
-            rv.update(**request.metadata)
+        if self.config["METADATA_WRAPPING"]:
+            rv = {"code": code}
+            if data is not None:
+                rv.update(data=data)
+            if request.metadata:
+                rv.update(**request.metadata)
 
-        rv = jsonify(rv)
+        if rv:
+            rv = jsonify(rv)
+        else:
+            rv = Response()
         rv.status_code = code
         return rv
 
     def __init__(self, *args, **kwargs):
         super(Stupeflask, self).__init__(*args, **kwargs)
+        self.config.setdefault("METADATA_WRAPPING", True)
 
         for code in default_exceptions.keys():
             self.register_error_handler(code, handle_error)
