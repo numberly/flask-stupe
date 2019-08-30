@@ -65,6 +65,56 @@ Becomes:
     from application import views
     app.register_blueprints(views)
 
+
+Metadata wrapping
+-----------------
+
+By default, returning ``{"foo": "bar"}`` from a route would produce such a
+response:
+
+.. code-block:: json
+
+    {
+      "code": 200,
+      "data": {
+        "foo": "bar"
+      }
+    }
+
+
+As you can see, the data is wrapped within another JSON object containing the
+status code.
+
+You can add more metadata to that outter JSON object by modifying the
+``metadata`` dictionary of the current ``flask.request``. For example, this
+snippet will make all responses have a ``version`` field added to them:
+
+.. code-block:: python
+
+    from flask import request
+
+    @app.before_request
+    def before_request(response):
+        request.metadata.update(version="v1")
+
+
+The produced output will thus look like this:
+
+.. code-block:: json
+
+    {
+      "code": 200,
+      "data": {
+        "foo": "bar"
+      },
+      "version": "v1"
+    }
+
+
+If, on the opposite, you don't want any sort of metadata wrapping, and rather
+return a plain ``{"foo": "bar"}`` JSON object, just set the `METADATA_WRAPPING`
+configuration value to `False`.
+
 Add path converters
 ===================
 
