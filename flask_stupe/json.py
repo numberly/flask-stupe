@@ -104,7 +104,7 @@ class Stupeflask(BaseStupeflask):
     response_class = Response
 
     def make_response(self, rv):
-        if isinstance(rv, FlaskResponse):
+        if isinstance(rv, self.response_class):
             return rv
 
         data = None
