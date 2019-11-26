@@ -75,3 +75,32 @@ def test_paginate_function(app):
         def foo_instance():
             return Cursor([1, 2, 3])
         assert paginate(foo_instance, skip=2)().data == [3]
+
+
+def test_paginate_header_total_count(app):
+    with app.test_request_context():
+        paginate(Cursor([1, 2, 3]))
+        assert request.response_headers["X-Total-Count"] == 3
+        assert "Link" not in request.response_headers
+
+
+def test_paginate_header_link(app):
+    with app.test_request_context():
+        paginate(Cursor([1, 2, 3]), limit=1, skip=1)
+        links = request.response_headers["Link"].split(",")
+        assert links[0].split("?")[1] == 'limit=1&skip=1>; rel="self"'
+        assert links[1].split("?")[1] == 'limit=1&skip=0>; rel="first"'
+        assert links[2].split("?")[1] == 'limit=1&skip=0>; rel="prev"'
+        assert links[3].split("?")[1] == 'limit=1&skip=2>; rel="next"'
+        assert links[4].split("?")[1] == 'limit=1&skip=2>; rel="last"'
+
+
+def test_paginate_metadata_links(app):
+    with app.test_request_context():
+        paginate(Cursor([1, 2, 3]), limit=1, skip=1)
+        links = request.metadata["links"]
+        assert links["self"].split("?")[1] == "limit=1&skip=1"
+        assert links["first"].split("?")[1] == "limit=1&skip=0"
+        assert links["prev"].split("?")[1] == "limit=1&skip=0"
+        assert links["next"].split("?")[1] == "limit=1&skip=2"
+        assert links["last"].split("?")[1] == "limit=1&skip=2"

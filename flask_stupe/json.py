@@ -131,6 +131,7 @@ class Stupeflask(BaseStupeflask):
         else:
             rv = Response()
         rv.status_code = code
+
         return rv
 
     def __init__(self, *args, **kwargs):

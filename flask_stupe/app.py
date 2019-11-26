@@ -1,7 +1,7 @@
 import os
 from pkgutil import iter_modules
 
-from flask import Blueprint, Flask
+from flask import Blueprint, Flask, Response, request
 
 from flask_stupe.config import Config
 from flask_stupe.converters import converters
@@ -23,6 +23,14 @@ class Stupeflask(Flask):
         from_env = self.config.from_env()
         log.info(" * Overriden by environment: " + ", ".join(from_env))
         self.register_converters(converters)
+
+    def make_response(self, rv):
+        rv = Response(rv)
+
+        if request.response_headers:
+            rv.headers.extend(request.response_headers)
+
+        return rv
 
     def register_converter(self, converter, name=None):
         """Register a new converter that can be used in endpoints URLs
