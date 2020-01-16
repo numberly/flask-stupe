@@ -50,6 +50,14 @@ def test_register_blueprints(test_apps, caplog, app):
     assert len(app.blueprints) == 2
 
 
+def test_register_blueprints_with_options(test_apps, app):
+    import blueprintapp
+
+    app.register_blueprints(blueprintapp, url_prefix="/v1")
+    for rule in app.url_map.iter_rules():
+        assert rule.rule.startswith(("/v1/", "/static/"))
+
+
 @pytest.fixture
 def app():
     return Stupeflask(__name__)

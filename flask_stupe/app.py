@@ -52,7 +52,7 @@ class Stupeflask(Flask):
         for converter in converter_list:
             self.register_converter(converter)
 
-    def register_blueprints(self, package):
+    def register_blueprints(self, package, **options):
         """Auto-discover blueprints and register them
 
         It will look recursively in every module of the package to find a
@@ -68,9 +68,9 @@ class Stupeflask(Flask):
             blueprint = getattr(module, blueprint_name, None)
             if blueprint and isinstance(blueprint, Blueprint):
                 log.info(' * Registering blueprint {}'.format(name))
-                self.register_blueprint(blueprint)
+                self.register_blueprint(blueprint, **options)
             elif is_pkg:
-                self.register_blueprints(module)
+                self.register_blueprints(module, **options)
 
 
 __all__ = ["Stupeflask"]
