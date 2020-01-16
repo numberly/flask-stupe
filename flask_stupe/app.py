@@ -68,6 +68,7 @@ class Stupeflask(Flask):
             blueprint = getattr(module, blueprint_name, None)
             if blueprint and isinstance(blueprint, Blueprint):
                 log.info(' * Registering blueprint {}'.format(name))
+                blueprint.name = name
                 self.register_blueprint(blueprint, **options)
             elif is_pkg:
                 self.register_blueprints(module, **options)
