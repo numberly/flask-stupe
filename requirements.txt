@@ -1,7 +1,7 @@
 flask
 pymongo
 python-dateutil
-marshmallow
+marshmallow<=2.19.5
 
 flake8
 flake8-isort
