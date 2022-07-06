@@ -50,10 +50,14 @@ Session.vim
 # SublimeText
 *.sublime-workspace
 
+# VScode
+.vscode
+
 # PyCharm
 .idea
 .iml
 
 # virtualenv
 .venv*
+venv*
 src/
