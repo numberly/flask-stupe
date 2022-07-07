@@ -38,6 +38,12 @@ class Cursor(pymongo.cursor.Cursor):
     def __del__(self):
         pass
 
+    def __iter__(self):
+        return iter(self.data)
+
+    def __empty(self):
+        return len(self.data) == 0
+
     def skip(self, skip):
         del self.data[:skip]
         return self.data

@@ -11,8 +11,9 @@ if pymongo:
     def _paginate(cursor, skip=None, limit=None, sort=None, count=True,
                   collation=None):
         metadata = getattr(request, "metadata", None)
+        # thdo: we can't extract cursor length anymore from pymongo.cursor.Cursor without consume it
         if count and isinstance(metadata, dict):
-            metadata.update(count=cursor.count())
+            metadata.update(count=len(list(cursor.clone())))
 
         skip = request.args.get("skip", skip, type=int)
         if skip is not None:
