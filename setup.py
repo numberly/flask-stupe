@@ -9,11 +9,11 @@ def get_description():
 
 setup(
     name='Flask-Stupe',
-    version='4.3.0',
+    version='4.4.0',
     url='https://github.com/numberly/flask-stupe',
     license='MIT',
     author='Guillaume Gelin',
-    author_email='ramnes@1000mercis.com',
+    author_email='1m_rtb_devops@numberly.com',
     description='a.k.a. « Flask on steroids »',
     long_description=get_description(),
     packages=['flask_stupe'],
