@@ -7,8 +7,8 @@
    :target: https://pypi.python.org/pypi/Flask-Stupe
 .. image:: https://img.shields.io/github/license/numberly/flask-stupe.svg
    :target: https://github.com/numberly/flask-stupe/blob/master/LICENSE
-.. image:: https://img.shields.io/travis/numberly/flask-stupe.svg
-   :target: https://travis-ci.org/numberly/flask-stupe
+.. image:: https://github.com/numberly/flask-stupe/actions/workflows/testing.yml/badge.svg
+   :target: https://github.com/numberly/flask-stupe/actions
 .. image:: https://img.shields.io/coveralls/numberly/flask-stupe.svg
    :target: https://coveralls.io/github/numberly/flask-stupe
 .. image:: https://readthedocs.org/projects/flask-stupe/badge
