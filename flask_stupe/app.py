@@ -63,7 +63,13 @@ class Stupeflask(Flask):
         """
         prefix = package.__name__ + "."
         for importer, name, is_pkg in iter_modules(package.__path__, prefix):
-            module = importer.find_module(name).load_module(name)
+            try:
+                # Python 3.12+ approach
+                import importlib
+                module = importlib.import_module(name)
+            except AttributeError: # pragma: no cover
+                # Fallback for older Python versions
+                module = importer.find_module(name).load_module(name)
             blueprint_name = name.rsplit(".")[-1]
             blueprint = getattr(module, blueprint_name, None)
             if blueprint and isinstance(blueprint, Blueprint):

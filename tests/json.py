@@ -5,7 +5,7 @@ from uuid import uuid4
 import flask
 import pytest
 from bson import ObjectId
-from pkg_resources import parse_version
+from packaging.version import parse as parse_version
 from werkzeug.exceptions import Forbidden, NotFound
 
 from flask_stupe.json import JSONEncoder, Response, Stupeflask, encode, encoder_rules, handle_error
