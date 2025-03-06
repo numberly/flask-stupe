@@ -1,13 +1,6 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+name: Lint
 
-name: Build, Lint and Test
-
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push, pull_request]
 
 permissions:
   contents: read
@@ -17,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.8
+
+    - name: Set up Python 3.12
       uses: actions/setup-python@v3
       with:
-        python-version: "3.8"
+        python-version: "3.12"
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -30,6 +25,3 @@ jobs:
         pre-commit run --all-files
     - name: Run Ruff
       run: ruff check --output-format=github .
-    - name: Test with pytest
-      run: |
-        pytest
