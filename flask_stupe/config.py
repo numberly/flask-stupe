@@ -14,7 +14,6 @@ def _str2list(v):
 
 
 class Config(FlaskConfig):
-
     def from_env(self):
         """Try to overload the config with the environment.
 

@@ -22,11 +22,13 @@ def auth_required(function):
     A view decorated with :func:`auth_required` will be aborted with a status
     code 401 if the user making the request is not authenticated.
     """
+
     @functools.wraps(function)
     def __inner(*args, **kwargs):
         if not request.user:
             abort(401)
         return function(*args, **kwargs)
+
     return __inner
 
 
@@ -47,6 +49,7 @@ def permission_required(*permissions):
     You can apply this decorator multiple times if you need several permissions
     at once to access a view.
     """
+
     def __decorator(function):
         @functools.wraps(function)
         def __inner(*args, **kwargs):
@@ -59,7 +62,9 @@ def permission_required(*permissions):
                 if fnmatch.filter(permissions, user_group):
                     return function(*args, **kwargs)
             abort(403)
+
         return auth_required(__inner)
+
     return __decorator
 
 

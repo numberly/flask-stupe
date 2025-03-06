@@ -61,13 +61,13 @@ class Stupeflask(Flask):
         It means that if a file called `foo.py` has an exportable variable
         called `foo`, it will try to register that variable as a blueprint.
         """
-        prefix = package.__name__ + '.'
+        prefix = package.__name__ + "."
         for importer, name, is_pkg in iter_modules(package.__path__, prefix):
             module = importer.find_module(name).load_module(name)
-            blueprint_name = name.rsplit('.')[-1]
+            blueprint_name = name.rsplit(".")[-1]
             blueprint = getattr(module, blueprint_name, None)
             if blueprint and isinstance(blueprint, Blueprint):
-                log.info(' * Registering blueprint {}'.format(name))
+                log.info(" * Registering blueprint {}".format(name))
                 blueprint.name = name
                 self.register_blueprint(blueprint, **options)
             elif is_pkg:
