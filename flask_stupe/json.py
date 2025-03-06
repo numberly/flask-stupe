@@ -3,8 +3,7 @@ from datetime import date, datetime
 from flask import Response as FlaskResponse
 from flask import current_app, jsonify, request
 from flask.json import JSONEncoder as FlaskJSONEncoder
-from werkzeug.exceptions import (HTTPException, InternalServerError,
-                                 default_exceptions)
+from werkzeug.exceptions import HTTPException, InternalServerError, default_exceptions
 
 from flask_stupe import bson
 from flask_stupe.app import Stupeflask as BaseStupeflask
@@ -19,7 +18,6 @@ if bson:
 
 
 class EncodeError(Exception):
-
     def __init__(self, o):
         self.message = "{} is not JSON serializable".format(repr(o))
 
@@ -141,5 +139,4 @@ class Stupeflask(BaseStupeflask):
             self.register_error_handler(code, handle_error)
 
 
-__all__ = ["encoder_rules", "encode", "JSONEncoder", "handle_error",
-           "Stupeflask"]
+__all__ = ["encoder_rules", "encode", "JSONEncoder", "handle_error", "Stupeflask"]

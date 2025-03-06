@@ -18,9 +18,15 @@ def boolean(value):
     if not value:
         raise ValueError("boolean type must be non-null")
     value = value.lower()
-    if value in ('true', '1',):
+    if value in (
+        "true",
+        "1",
+    ):
         return True
-    if value in ('false', '0',):
+    if value in (
+        "false",
+        "0",
+    ):
         return False
     raise ValueError("Invalid literal for boolean(): {0}".format(value))
 
@@ -41,6 +47,7 @@ __all__ = ["boolean", "int_list", "str_list"]
 
 
 if bson:
+
     def objectid_list(value):
         """Convert a hexadecimal comma separated string to an ObjectId list."""
         return [bson.ObjectId(element) for element in str_list(value)]
@@ -49,6 +56,7 @@ if bson:
 
 
 if dateutil:
+
     def datetime(value):
         """Convert a string to a datetime"""
         return dateutil.parser.parse(value)

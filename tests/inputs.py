@@ -3,8 +3,7 @@ from datetime import datetime as dt
 import pytest
 from bson import ObjectId
 
-from flask_stupe.inputs import (boolean, date, datetime, int_list,
-                                objectid_list, str_list)
+from flask_stupe.inputs import boolean, date, datetime, int_list, objectid_list, str_list
 
 
 def test_boolean():

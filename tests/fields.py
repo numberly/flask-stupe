@@ -3,8 +3,7 @@ import pytest
 from marshmallow import Schema, ValidationError
 from marshmallow.fields import Integer, String
 
-from flask_stupe.fields import (IP, Color, Cron, Currency, IPv4, IPv6,
-                                ObjectId, OneOf)
+from flask_stupe.fields import IP, Color, Cron, Currency, IPv4, IPv6, ObjectId, OneOf
 
 
 def test_ip():

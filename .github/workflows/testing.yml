@@ -28,6 +28,8 @@ jobs:
     - name: Pre-commit
       run: |
         pre-commit run --all-files
+    - name: Run Ruff
+      run: ruff check --output-format=github .
     - name: Test with pytest
       run: |
         pytest

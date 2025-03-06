@@ -8,6 +8,7 @@ __all__ = []
 
 
 if marshmallow:
+
     def _load_schema(schema, json):
         try:
             return schema.load(json)
@@ -28,7 +29,9 @@ if marshmallow:
                 json = request.get_json(force=True)
                 request.schema = _load_schema(schema, json)
                 return f(*args, **kwargs)
+
             return __inner
+
         return __inner
 
     __all__.extend(["schema_required"])

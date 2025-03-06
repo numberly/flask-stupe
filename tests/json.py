@@ -8,8 +8,7 @@ from bson import ObjectId
 from pkg_resources import parse_version
 from werkzeug.exceptions import Forbidden, NotFound
 
-from flask_stupe.json import (JSONEncoder, Response, Stupeflask, encode,
-                              encoder_rules, handle_error)
+from flask_stupe.json import JSONEncoder, Response, Stupeflask, encode, encoder_rules, handle_error
 from flask_stupe.pagination import paginate
 from tests.conftest import Cursor, response_to_dict
 
