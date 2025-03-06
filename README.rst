@@ -110,7 +110,7 @@ Tests
 
 To run Flask-Stupe tests:
 
-* install developers requirements with ``pip install -r requirements.txt``;
+* install developers requirements with ``pip install -r dev-requirements.txt``;
 * run ``pytest``.
 
 
